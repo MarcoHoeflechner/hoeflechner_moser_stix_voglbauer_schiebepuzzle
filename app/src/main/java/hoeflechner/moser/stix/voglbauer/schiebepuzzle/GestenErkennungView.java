@@ -45,6 +45,7 @@ public class GestenErkennungView extends GridView {
 
     private void init(final Context context)
     {
+        // Sound Player initialisieren
         mp = MediaPlayer.create(getContext(), R.raw.blop);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener()
         {
@@ -57,6 +58,7 @@ public class GestenErkennungView extends GridView {
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                    float velocityY) {
                 // Sound abspielen
+                mp.setVolume(100,100);
                 mp.start();
 
                 final int position = GestenErkennungView.this.pointToPosition

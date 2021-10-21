@@ -22,16 +22,10 @@ public class BackgroundSoundService extends Service
         super.onCreate();
         player = MediaPlayer.create(this, R.raw.background);
         player.setLooping(true); // Set looping
-        player.setVolume(80,80); // damit man den Button Sound noch hört
+        player.setVolume(50,50); // damit man den Button Sound noch hört
         // Debug-Meldung
         Toast.makeText(this, "Hintergrundmusik wird gespielt", Toast.LENGTH_SHORT).show();
     }
-
-    /*public int onStartCommand(Intent intent, int flags, int startId)
-    {
-        player.start();
-        return 1;
-    }*/
 
     public void onStart(Intent intent, int startId)
     {
@@ -40,15 +34,10 @@ public class BackgroundSoundService extends Service
         player.start();
     }
 
-    public IBinder onUnBind(Intent arg0)
-    {
-        // TO DO Auto-generated method
-        return null;
-    }
-
     public void onStop()
     {
-
+        player.stop();
+        player.release();
     }
 
     @Override
