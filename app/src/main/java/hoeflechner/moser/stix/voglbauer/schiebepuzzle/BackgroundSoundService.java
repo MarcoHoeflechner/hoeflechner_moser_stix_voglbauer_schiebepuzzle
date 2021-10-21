@@ -22,7 +22,7 @@ public class BackgroundSoundService extends Service
         super.onCreate();
         player = MediaPlayer.create(this, R.raw.background);
         player.setLooping(true); // Set looping
-        player.setVolume(100,100);
+        player.setVolume(80,80); // damit man den Button Sound noch hört
         // Debug-Meldung
         Toast.makeText(this, "Hintergrundmusik wird gespielt", Toast.LENGTH_SHORT).show();
     }

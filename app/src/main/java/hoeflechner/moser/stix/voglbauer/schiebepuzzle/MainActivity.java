@@ -2,6 +2,7 @@ package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -28,6 +29,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static MediaPlayer mp;
     // Hintergrund-Musik
     private Intent backgroundMusicIntent;
 
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Musik-Service starten
         startService(new Intent(getApplicationContext(), BackgroundSoundService.class));
+        mp = MediaPlayer.create(this, R.raw.blop);
 
         init();
 
@@ -184,6 +187,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void moveTiles(Context context, String richtung, int position){
+        // Soundeffekt
+        //mp.start();
+
         //Tiles oben links
         if(position == 0){
             if(richtung.equals(RIGHT)){
