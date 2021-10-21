@@ -51,8 +51,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Musik
+        // Musik-Service Referenz
         backgroundMusicIntent = new Intent(getApplicationContext(), BackgroundSoundService.class);
+
+        // Musik-Service starten
+        startService(new Intent(getApplicationContext(), BackgroundSoundService.class));
 
         init();
 
