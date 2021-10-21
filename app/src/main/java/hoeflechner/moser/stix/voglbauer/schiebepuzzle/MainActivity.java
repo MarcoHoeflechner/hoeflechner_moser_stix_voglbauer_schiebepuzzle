@@ -1,6 +1,7 @@
 package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -25,9 +26,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Random;
 
-//https://www.youtube.com/watch?v=YKbFx8PDTIo
-
 public class MainActivity extends AppCompatActivity {
+
+    // Hintergrund-Musik
+    private Intent backgroundMusicIntent;
 
     private static final int COLUMNS= 3;
     private static final int DIMENSIONS =COLUMNS * COLUMNS;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Musik
+        backgroundMusicIntent = new Intent(getApplicationContext(), BackgroundSoundService.class);
 
         init();
 
