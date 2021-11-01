@@ -1,5 +1,6 @@
 package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -9,14 +10,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import hoeflechner.moser.stix.voglbauer.schiebepuzzle.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,9 +29,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static MediaPlayer mp;
     // Hintergrund-Musik
-    private Intent backgroundMusicIntent;
+    private MediaPlayer mp;
 
     private static final int COLUMNS= 3;
     private static final int DIMENSIONS =COLUMNS * COLUMNS;
@@ -47,24 +46,38 @@ public class MainActivity extends AppCompatActivity {
     public static final String LEFT="left";
     public static final String RIGHT="right";
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Musik-Service Referenz
-        backgroundMusicIntent = new Intent(getApplicationContext(), BackgroundSoundService.class);
-
-        // Musik-Service starten
-        startService(new Intent(getApplicationContext(), BackgroundSoundService.class));
-        mp = MediaPlayer.create(this, R.raw.blop);
+        mp = MediaPlayer.create(this,R.raw.background);
+        mp.setVolume(50,50);
+        mp.setLooping(true);
+        mp.start();
 
         init();
 
         scramble();
 
         setDimensions();
+    }
+
+    // Wird aufgerufen wenn die App verlassen, jedoch nicht vollständig geschlossen wird
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        mp.pause();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mp.start();
     }
 
     private void setDimensions() {
