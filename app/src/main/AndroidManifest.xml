@@ -9,17 +9,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Schiebepuzzle">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Schiebepuzzle.NoActionBar">
+
+
+        </activity>
+
+        <activity
+            android:name=".MenuActivity"
+            android:exported="true">
+
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <service
+            android:name=".BackgroundSoundService"
+            android:enabled="true" />
     </application>
 
 </manifest>
