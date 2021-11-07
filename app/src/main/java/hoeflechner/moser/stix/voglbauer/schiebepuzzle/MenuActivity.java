@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 public class MenuActivity extends AppCompatActivity {
 
     private ImageButton playButton;
+    private ImageButton settingsButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +19,8 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         playButton = (ImageButton) findViewById(R.id.playButton);
+        settingsButton = (ImageButton) findViewById(R.id.settings_button);
+
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,6 +28,18 @@ public class MenuActivity extends AppCompatActivity {
                 switchToPlayground();
             }
         });
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToSettings();
+            }
+        });
+    }
+
+    private void switchToSettings() {
+        Intent intent = new Intent(this, SettingsMenu.class);
+        startActivity(intent);
     }
 
     private void switchToPlayground() {
