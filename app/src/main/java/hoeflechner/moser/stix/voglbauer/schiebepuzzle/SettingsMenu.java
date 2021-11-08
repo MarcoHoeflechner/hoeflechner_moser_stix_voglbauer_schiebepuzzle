@@ -18,12 +18,16 @@ public class SettingsMenu extends AppCompatActivity {
     // Variable für Ein/Ausschalter
     private Boolean music = true;
 
+    //Okay Button bringt einem zurück zur MainActivity
+    private Button okayButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_menu);
 
         musikButton = (Button) findViewById(R.id.musik_button);
+        okayButton = (Button) findViewById(R.id.return_button);
 
         // Button an Variable anpassen
         if (music)
@@ -40,6 +44,13 @@ public class SettingsMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switchOnOff();
+            }
+        });
+
+        okayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
