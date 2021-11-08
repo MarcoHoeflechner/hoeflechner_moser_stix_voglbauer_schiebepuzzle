@@ -2,6 +2,7 @@ package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,14 +13,12 @@ public class SettingsMenu extends AppCompatActivity {
     //Referenz auf Ein/Ausschalter
     private Button musikButton;
 
-    // Key, um die Variable in die nächste Activity übertragen zu können
-    public static final String EXTRA_MESSAGE = "hoeflechner.moser.stix.voglbauer.schiebepuzzle.extra.MESSAGE";
-
-    // Variable für Ein/Ausschalter
-    private Boolean music = true;
-
     //Okay Button bringt einem zurück zur MainActivity
     private Button okayButton;
+
+    // Musiksteuerung
+    private Boolean music;
+    public static final String EXTRA_REPLY = "hoeflechner.moser.stix.voglbauer.schiebepuzzle.extra.REPLY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +27,10 @@ public class SettingsMenu extends AppCompatActivity {
 
         musikButton = (Button) findViewById(R.id.musik_button);
         okayButton = (Button) findViewById(R.id.return_button);
+
+        // Musiksteuerung
+        Intent intent = getIntent();
+        music = intent.getExtras().getBoolean(MenuActivity.EXTRA_MESSAGE);
 
         // Button an Variable anpassen
         if (music)
@@ -46,23 +49,27 @@ public class SettingsMenu extends AppCompatActivity {
                 switchOnOff();
             }
         });
-
-        okayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     //Wechselt den Text des Musikbuttons auf ein oder aus
-    private void switchOnOff() {
-
+    private void switchOnOff()
+    {
         if(musikButton.getText().toString().equals("Ein")) {
             musikButton.setText("Aus");
+            music = true;
         }
+
         else if(musikButton.getText().toString().equals("Aus")) {
             musikButton.setText("Ein");
+            music = false;
         }
+    }
+
+    public void launchMenuActivity(View view)
+    {
+        Intent replyIntent = new Intent();
+        replyIntent.putExtra(EXTRA_REPLY, music);
+        setResult(RESULT_OK, replyIntent);
+        finish();
     }
 }
