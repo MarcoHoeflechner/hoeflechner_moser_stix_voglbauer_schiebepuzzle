@@ -12,12 +12,29 @@ public class SettingsMenu extends AppCompatActivity {
     //Referenz auf Ein/Ausschalter
     private Button musikButton;
 
+    // Key, um die Variable in die nächste Activity übertragen zu können
+    public static final String EXTRA_MESSAGE = "hoeflechner.moser.stix.voglbauer.schiebepuzzle.extra.MESSAGE";
+
+    // Variable für Ein/Ausschalter
+    private Boolean music = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_menu);
 
         musikButton = (Button) findViewById(R.id.musik_button);
+
+        // Button an Variable anpassen
+        if (music)
+        {
+            musikButton.setText("Aus");
+        }
+
+        if (!music)
+        {
+            musikButton.setText("Ein");
+        }
 
         musikButton.setOnClickListener(new View.OnClickListener() {
             @Override
