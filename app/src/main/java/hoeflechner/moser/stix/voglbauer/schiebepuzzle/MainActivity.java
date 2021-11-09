@@ -30,6 +30,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     // Hintergrund-Musik
+    private Boolean music;
     private MediaPlayer mp;
 
     private static final int COLUMNS= 3;
@@ -53,10 +54,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mp = MediaPlayer.create(this,R.raw.background);
-        mp.setVolume(50,50);
-        mp.setLooping(true);
-        mp.start();
+        // Musiksteuerung
+        Intent intent = getIntent();
+        music = intent.getExtras().getBoolean(MenuActivity.EXTRA_MESSAGE);
+
+        // Musik nur starten, wenn sie nicht in den Einstellungen deaktiviert wurde
+        if (music)
+        {
+            mp = MediaPlayer.create(this,R.raw.background);
+            mp.setVolume(50,50);
+            mp.setLooping(true);
+            mp.start();
+        }
 
         init();
 
@@ -70,14 +79,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
-        mp.pause();
+        if (music)
+        {
+            mp.pause();
+        }
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        mp.start();
+        if (music)
+        {
+            mp.start();
+        }
     }
 
     private void setDimensions() {

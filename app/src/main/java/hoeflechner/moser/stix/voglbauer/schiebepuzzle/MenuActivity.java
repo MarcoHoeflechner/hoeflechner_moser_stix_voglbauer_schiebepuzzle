@@ -64,6 +64,8 @@ public class MenuActivity extends AppCompatActivity {
 
     private void switchToPlayground() {
         Intent intent = new Intent(this, MainActivity.class);
+        // Musiksteuerung
+        intent.putExtra(EXTRA_MESSAGE, music);
         startActivity(intent);
     }
 
