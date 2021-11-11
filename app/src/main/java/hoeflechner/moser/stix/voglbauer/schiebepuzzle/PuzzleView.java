@@ -8,9 +8,8 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
-import android.widget.Toast;
 
-public class GestenErkennungView extends GridView {
+public class PuzzleView extends GridView {
     private GestureDetector gDetector;
     private boolean mFlingConfirmed = false;
     private float mTouchX;
@@ -21,24 +20,24 @@ public class GestenErkennungView extends GridView {
     private static final int SWIPE_MAX_OFF_PATH = 100;
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
 
-    public GestenErkennungView(Context context) {
+    public PuzzleView(Context context) {
         super(context);
         init(context);
     }
 
-    public GestenErkennungView(Context context, AttributeSet attrs) {
+    public PuzzleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public GestenErkennungView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PuzzleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
-    public GestenErkennungView(Context context, AttributeSet attrs, int defStyleAttr,
-                               int defStyleRes) {
+    public PuzzleView(Context context, AttributeSet attrs, int defStyleAttr,
+                      int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -61,7 +60,7 @@ public class GestenErkennungView extends GridView {
                 mp.setVolume(100,100);
                 mp.start();
 
-                final int position = GestenErkennungView.this.pointToPosition
+                final int position = PuzzleView.this.pointToPosition
                         (Math.round(e1.getX()), Math.round(e1.getY()));
 
                 if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {

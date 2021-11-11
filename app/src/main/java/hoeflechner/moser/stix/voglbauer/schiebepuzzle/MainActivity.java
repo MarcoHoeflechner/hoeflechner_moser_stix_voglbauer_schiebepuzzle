@@ -1,25 +1,12 @@
 package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean music;
     private MediaPlayer mp;
     private static MediaPlayer soundEffectPlayer;
+    private static Long startTime;
 
     private static int blackPosition=8;
 
@@ -41,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String[] tileList;
 
-    private static GestenErkennungView erkennungView;
+    private static PuzzleView erkennungView;
 
     private static int columnWidth, columnHeight;
 
@@ -79,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
         scramble();
 
         setDimensions();
+
+        // Zeitstempel, um die Zeit nach der das Puzzle fertig gestellt wurde, zu ermitteln
+        startTime = System.currentTimeMillis()/1000;
+        String ts = startTime.toString();
+        System.out.println(ts);
     }
 
     // Wird aufgerufen wenn die App verlassen, jedoch nicht vollständig geschlossen wird
@@ -188,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init(){
-        erkennungView = (GestenErkennungView) findViewById(R.id.grid);
+        erkennungView = (PuzzleView) findViewById(R.id.grid);
         erkennungView.setNumColumns(COLUMNS);
         tileList=new String[DIMENSIONS];
         for (int i = 0; i < DIMENSIONS; i++) {
@@ -204,11 +197,19 @@ public class MainActivity extends AppCompatActivity {
         tileList[position]=newPosition;
         display(context);
 
-       if( isSolved());
-       //Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+       if( isSolved())
+       {
+           //Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+
+           // Spielzeit berechnen und speichern
+           Long playTime = System.currentTimeMillis()/1000 - startTime;
+           String playTimeString = playTime.toString();
+           System.out.println("Spielzeit: " + playTimeString);
+       }
     }
 
-    private static boolean isSolved() {
+    private static boolean isSolved()
+    {
         boolean solved=false;
 
         for (int i = 0; i < tileList.length; i++) {
