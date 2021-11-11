@@ -1,25 +1,12 @@
 package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
@@ -40,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String[] tileList;
 
-    private static GestenErkennungView erkennungView;
+    private static PuzzleView erkennungView;
 
     private static int columnWidth, columnHeight;
 
@@ -183,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init(){
-        erkennungView = (GestenErkennungView) findViewById(R.id.grid);
+        erkennungView = (PuzzleView) findViewById(R.id.grid);
         erkennungView.setNumColumns(COLUMNS);
         tileList=new String[DIMENSIONS];
         for (int i = 0; i < DIMENSIONS; i++) {
