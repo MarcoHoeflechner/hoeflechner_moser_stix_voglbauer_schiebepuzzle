@@ -15,6 +15,7 @@ public class GestenErkennungView extends GridView {
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
+    private static MediaPlayer mp;
 
     private static final int SWIPE_MIN_DISTANCE = 100;
     private static final int SWIPE_MAX_OFF_PATH = 100;
@@ -44,6 +45,8 @@ public class GestenErkennungView extends GridView {
 
     private void init(final Context context)
     {
+        // Sound Player initialisieren
+        mp = MediaPlayer.create(getContext(), R.raw.blop);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener()
         {
             @Override
@@ -54,6 +57,10 @@ public class GestenErkennungView extends GridView {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                    float velocityY) {
+                // Sound abspielen
+                mp.setVolume(100,100);
+                mp.start();
+
                 final int position = GestenErkennungView.this.pointToPosition
                         (Math.round(e1.getX()), Math.round(e1.getY()));
 
