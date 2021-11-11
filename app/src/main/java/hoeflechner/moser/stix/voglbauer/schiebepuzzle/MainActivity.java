@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private Boolean music;
     private MediaPlayer mp;
 
+    private static int blackPosition=8;
+
     private static final int COLUMNS= 3;
     private static final int DIMENSIONS =COLUMNS * COLUMNS;
 
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 button.setBackgroundResource(R.drawable.m8);
             }
             else if(tileList[i].equals("8")){
-                button.setBackgroundResource(R.drawable.m9);
+                button.setBackgroundResource(R.drawable.black_image);
             }
 
             buttons.add(button);
@@ -172,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         String temp;
         Random random=new Random();
 
-        for (int i = tileList.length-1; i > 0; i--) {
+        for (int i = tileList.length-2; i > 0; i--) {
             index = random.nextInt(i+1);
             temp = tileList[index];
             tileList[index] = tileList[i];
@@ -190,13 +192,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static void swap(Context context, int position, int swap){
+        //TODO Sound Effekt
         String newPosition = tileList[position+swap];
         tileList[position+swap]= tileList[position];
         tileList[position]=newPosition;
         display(context);
 
        if( isSolved());
-       Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+       //Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
     }
 
     private static boolean isSolved() {
@@ -215,32 +218,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void moveTiles(Context context, String richtung, int position){
-        // Soundeffekt
-        //mp.start();
 
-        //Tiles oben links
+
+
+    //Tiles oben links
         if(position == 0){
-            if(richtung.equals(RIGHT)){
+            if(richtung.equals(RIGHT) &&blackPosition==1){
                 swap(context, position, 1);
+                blackPosition=0;
             }
-            else if(richtung.equals(DOWN)){
+            else if(richtung.equals(DOWN)&&blackPosition==3){
                 swap(context, position, COLUMNS);
+                blackPosition=0;
             }
             else {
                 Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
             }
         }
+        else if (position==blackPosition){
+            Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
+        }
 
         //Tiles oben mitte
         else if(position > 0 && position < COLUMNS-1){
-            if(richtung.equals(LEFT)){
+            if(richtung.equals(LEFT) && blackPosition==0){
                 swap(context, position, -1);
+                blackPosition=1;
             }
-            else if(richtung.equals(DOWN)){
+            else if(richtung.equals(DOWN)&&blackPosition==4){
                 swap(context, position, COLUMNS);
+                blackPosition=1;
             }
-            else if(richtung.equals(RIGHT)){
+            else if(richtung.equals(RIGHT)&&blackPosition==2){
                 swap(context, position, 1);
+                blackPosition=1;
             }
             else {
                 Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
@@ -249,11 +260,13 @@ public class MainActivity extends AppCompatActivity {
 
         //Tiles oben rechts
         else if(position == COLUMNS-1){
-            if(richtung.equals(LEFT)){
+            if(richtung.equals(LEFT)&&blackPosition==1){
                 swap(context, position, -1);
+                blackPosition=2;
             }
-            else if(richtung.equals(DOWN)){
+            else if(richtung.equals(DOWN)&& blackPosition==5){
                 swap(context, position, COLUMNS);
+                blackPosition=2;
             }
             else {
                 Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
@@ -261,36 +274,58 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Tiles mitte links
-        else if(position > COLUMNS-1 && position < DIMENSIONS-COLUMNS && position%COLUMNS == 0){
-            if(richtung.equals(UP)){
-                swap(context, position, -1);
+        else if(position > COLUMNS-1 && position < DIMENSIONS-COLUMNS && position%COLUMNS == 0 ){
+            if(richtung.equals(UP)&&blackPosition==0){
+                swap(context, position, -COLUMNS);
+
+                blackPosition=3;
             }
-            else if(richtung.equals(RIGHT)){
+            else if(richtung.equals(RIGHT)&&blackPosition==4){
                 swap(context, position, 1);
+                blackPosition=3;
             }
-            else if(richtung.equals(DOWN)){
+            else if(richtung.equals(DOWN)&&blackPosition==6){
                 swap(context, position, COLUMNS);
+                blackPosition=3;
+
             }
             else {
                 Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
             }
         }
 
-        //Tiles rechts mitte und unten rechts
-        else if(position == COLUMNS*2 -1 || position==COLUMNS*3-1){
-            if(richtung.equals(UP)){
+        //Tiles rechts mitte
+        else if(position == COLUMNS*2 -1){
+            if(richtung.equals(UP)&&blackPosition==2){
                 swap(context, position, -COLUMNS);
+                blackPosition=5;
             }
-            else if(richtung.equals(LEFT)){
+            else if(richtung.equals(LEFT) &&blackPosition==4){
                 swap(context, position, -1);
+                blackPosition=5;
             }
-            else if(richtung.equals(DOWN)){
-                if(position <= DIMENSIONS-COLUMNS-1){
+            else if(richtung.equals(DOWN)&&blackPosition==8){
                     swap(context, position, COLUMNS);
-                }
-                else {
+                    blackPosition=5;
+
+            }
+            else {
+                Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
+            }
+        }
+        //Tiles unten rechts
+        else if(position==COLUMNS*3-1){
+            if(richtung.equals(UP)&&blackPosition==5){
+                swap(context, position, -COLUMNS);
+                blackPosition=8;
+            }
+            else if(richtung.equals(LEFT) &&blackPosition==7){
+                swap(context, position, -1);
+                blackPosition=8;
+            }
+            else if(richtung.equals(DOWN)&&blackPosition==8){
+
                     Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
-                }
 
             }
             else {
@@ -300,11 +335,13 @@ public class MainActivity extends AppCompatActivity {
 
         //Tiles unten links
         else if(position == DIMENSIONS - COLUMNS){
-            if(richtung.equals(UP)){
+            if(richtung.equals(UP)&&blackPosition==3){
                 swap(context, position, -COLUMNS);
+                blackPosition=6;
             }
-            else if(richtung.equals(RIGHT)){
+            else if(richtung.equals(RIGHT)&&blackPosition==7){
                 swap(context, position, 1);
+                blackPosition=6;
             }
             else {
                 Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
@@ -313,14 +350,17 @@ public class MainActivity extends AppCompatActivity {
 
         //Tiles unten mitte
         else if(position < DIMENSIONS - 1 && position>DIMENSIONS-COLUMNS){
-            if(richtung.equals(UP)){
+            if(richtung.equals(UP)&&blackPosition==4){
                 swap(context, position, -COLUMNS);
+                blackPosition=7;
             }
-            else if(richtung.equals(LEFT)){
+            else if(richtung.equals(LEFT)&&blackPosition==6){
                 swap(context, position, -1);
+                blackPosition=7;
             }
-            else if(richtung.equals(RIGHT)){
+            else if(richtung.equals(RIGHT)&&blackPosition==8){
                 swap(context, position, 1);
+                blackPosition=7;
             }
             else {
                 Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
@@ -329,19 +369,24 @@ public class MainActivity extends AppCompatActivity {
 
         //Tiles mitte
         else{
-            if(richtung.equals(UP)){
+            if(richtung.equals(UP)&&blackPosition==1){
                 swap(context, position, -COLUMNS);
+                blackPosition=4;
             }
-            else if(richtung.equals(LEFT)){
+            else if(richtung.equals(LEFT)&&blackPosition==3){
                 swap(context, position, -1);
+                blackPosition=4;
             }
-            else if(richtung.equals(RIGHT)){
+            else if(richtung.equals(RIGHT)&&blackPosition==5){
                 swap(context, position, 1);
+                blackPosition=4;
             }
-            else {
+            else if(richtung.equals(DOWN)&&blackPosition==7) {
                 swap(context, position, COLUMNS);
+                blackPosition=4;
             }
         }
+
     }
 
 }
