@@ -2,6 +2,7 @@ package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mp;
     private static MediaPlayer soundEffectPlayer;
     private static Long startTime;
+    private static Long playTime;
 
     private static int blackPosition=8;
 
@@ -40,10 +42,20 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    // Bestzeit dauerhaft speichern
+    private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // SharedPreferences
+        sharedPreferences = getSharedPreferences("TimeValue", 0);
+        editor = sharedPreferences.edit();
+        playTime = sharedPreferences.getLong("playTime", 0);
+        System.out.println("PlayTime: " + playTime);
 
         // Hintergrundmusik
         Intent intent = getIntent();
@@ -70,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Zeitstempel, um die Zeit nach der das Puzzle fertig gestellt wurde, zu ermitteln
         startTime = System.currentTimeMillis()/1000;
-        String ts = startTime.toString();
-        System.out.println(ts);
     }
 
     // Wird aufgerufen wenn die App verlassen, jedoch nicht vollständig geschlossen wird
@@ -202,17 +212,24 @@ public class MainActivity extends AppCompatActivity {
            //Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
 
            // Spielzeit berechnen und speichern
-           Long playTime = System.currentTimeMillis()/1000 - startTime;
-           String playTimeString = playTime.toString();
+           Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
+           String playTimeString = currentPlayTime.toString();
            System.out.println("Spielzeit: " + playTimeString);
+
+           if (currentPlayTime < playTime)
+           {
+               // Spielzeit speichern
+               editor.putLong("playTime", currentPlayTime);
+               editor.commit();
+           }
        }
     }
 
     private static boolean isSolved()
     {
-        boolean solved=false;
+        boolean solved=true;
 
-        for (int i = 0; i < tileList.length; i++) {
+        /*for (int i = 0; i < tileList.length; i++) {
             if (tileList[i].equals(String.valueOf(i))) {
                 solved=true;
             }
@@ -220,7 +237,8 @@ public class MainActivity extends AppCompatActivity {
                 solved=false;
                 break;
             }
-        }
+        }*/
+
         return solved;
     }
 
