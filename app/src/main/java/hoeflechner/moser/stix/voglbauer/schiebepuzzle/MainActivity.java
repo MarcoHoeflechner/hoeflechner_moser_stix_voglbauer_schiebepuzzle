@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     // Hintergrund-Musik
     private Boolean music;
     private MediaPlayer mp;
+    private static MediaPlayer soundEffectPlayer;
 
     private static int blackPosition=8;
 
@@ -56,9 +57,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Musiksteuerung
+        // Hintergrundmusik
         Intent intent = getIntent();
         music = intent.getExtras().getBoolean(MenuActivity.EXTRA_MESSAGE);
+
+        // Soundeffekte
+        soundEffectPlayer = MediaPlayer.create(this,R.raw.blop);
+        soundEffectPlayer.setVolume(100,100);
 
         // Musik nur starten, wenn sie nicht in den Einstellungen deaktiviert wurde
         if (music)
@@ -192,7 +197,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static void swap(Context context, int position, int swap){
-        //TODO Sound Effekt
+        // Soundeffekt abspielen
+        soundEffectPlayer.start();
         String newPosition = tileList[position+swap];
         tileList[position+swap]= tileList[position];
         tileList[position]=newPosition;
