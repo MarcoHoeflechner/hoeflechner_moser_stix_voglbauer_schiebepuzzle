@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mp;
     private static MediaPlayer soundEffectPlayer;
     private static Long startTime;
-    private static Long playTime;
+    private static double startTimeDouble;
+    private static double playTimeDouble;
 
     private static int blackPosition=8;
 
@@ -54,8 +56,11 @@ public class MainActivity extends AppCompatActivity {
         // SharedPreferences
         sharedPreferences = getSharedPreferences("TimeValue", 0);
         editor = sharedPreferences.edit();
-        playTime = sharedPreferences.getLong("playTime", 0);
-        System.out.println("PlayTime: " + playTime);
+        // Spielzeit wird als Long abgespeichert und in double umgewandelt
+        Long tmp = sharedPreferences.getLong("playTime", Double.doubleToRawLongBits(100L));
+        playTimeDouble = Double.longBitsToDouble(tmp);
+        System.out.println(playTimeDouble);
+        System.out.println("PlayTime Highscore: " + playTimeDouble);
 
         // Hintergrundmusik
         Intent intent = getIntent();
@@ -81,7 +86,24 @@ public class MainActivity extends AppCompatActivity {
         setDimensions();
 
         // Zeitstempel, um die Zeit nach der das Puzzle fertig gestellt wurde, zu ermitteln
-        startTime = System.currentTimeMillis()/1000;
+        startTime = System.currentTimeMillis();
+        startTimeDouble = startTime.doubleValue();
+        System.out.println(startTimeDouble);
+
+        // Jede Sekunde hochzählen
+        final Handler handler = new Handler();
+        final int delay = 1000;
+        int[] sekundenZahl = new int[1];
+        sekundenZahl[0] = 2;
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(sekundenZahl[0]);
+                sekundenZahl[0]++;
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
     }
 
     // Wird aufgerufen wenn die App verlassen, jedoch nicht vollständig geschlossen wird
@@ -209,17 +231,23 @@ public class MainActivity extends AppCompatActivity {
 
        if( isSolved())
        {
-           Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+           //Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
 
            // Spielzeit berechnen und speichern
-           Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
-           String playTimeString = currentPlayTime.toString();
-           System.out.println("Spielzeit: " + playTimeString);
+           Long currentPlayTime = System.currentTimeMillis();
+           double currentPlayTimeDouble = currentPlayTime.doubleValue();
+           System.out.println(currentPlayTimeDouble);
+           System.out.println(startTimeDouble);
+           double endTimeDouble = (currentPlayTimeDouble - startTimeDouble) / 1000;
+           System.out.println("Spielzeit: " + String.format("%.2f", endTimeDouble));
+           System.out.println(playTimeDouble);
 
-           if (currentPlayTime < playTime)
+           if (endTimeDouble < playTimeDouble)
            {
                // Spielzeit speichern
-               editor.putLong("playTime", currentPlayTime);
+               System.out.println("Spielzeit wird gespeichert ...");
+               long playTimeLong = Double.doubleToRawLongBits(endTimeDouble);
+               editor.putLong("playTime", playTimeLong);
                editor.commit();
            }
        }
@@ -229,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
     {
         boolean solved=true;
 
-        for (int i = 0; i < tileList.length; i++) {
+        /*for (int i = 0; i < tileList.length; i++) {
             if (tileList[i].equals(String.valueOf(i))) {
                 solved=true;
             }
@@ -237,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                 solved=false;
                 break;
             }
-        }
+        }*/
 
         return solved;
     }
