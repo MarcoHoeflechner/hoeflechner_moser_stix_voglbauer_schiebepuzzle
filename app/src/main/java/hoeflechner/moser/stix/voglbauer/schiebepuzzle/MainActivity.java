@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
        if( isSolved())
        {
-           //Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+           Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
 
            // Spielzeit berechnen und speichern
            Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
     {
         boolean solved=true;
 
-        /*for (int i = 0; i < tileList.length; i++) {
+        for (int i = 0; i < tileList.length; i++) {
             if (tileList[i].equals(String.valueOf(i))) {
                 solved=true;
             }
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 solved=false;
                 break;
             }
-        }*/
+        }
 
         return solved;
     }

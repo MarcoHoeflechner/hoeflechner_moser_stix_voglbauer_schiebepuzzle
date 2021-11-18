@@ -16,8 +16,8 @@ public class PuzzleView extends GridView {
     private float mTouchY;
     private static MediaPlayer mp;
 
-    private static final int SWIPE_MIN_DISTANCE = 100;
-    private static final int SWIPE_MAX_OFF_PATH = 100;
+    private static final int SWIPE_MIN_DISTANCE = 50;
+    private static final int SWIPE_MAX_OFF_PATH = 130;
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
 
     public PuzzleView(Context context) {
