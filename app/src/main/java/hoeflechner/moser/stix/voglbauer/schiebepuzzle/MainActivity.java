@@ -94,12 +94,32 @@ public class MainActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         final int delay = 1000;
         int[] sekundenZahl = new int[1];
-        sekundenZahl[0] = 2;
+        sekundenZahl[0] = 1;
+        int[] minutenZahl = new int[1];
+        minutenZahl[0] = 0;
+        boolean[] minuten = new boolean[1];
+        minuten[0] = false;
 
+        // Jede Sekunde die Sekundenzahl hochzählen
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                System.out.println(sekundenZahl[0]);
+                String sekunden = String.valueOf(sekundenZahl[0]);
+                // In Sekunden und Minuten anzeigen
+                if (sekundenZahl[0] == 60)
+                {
+                    minutenZahl[0]++;
+                    sekundenZahl[0] = 0;
+                    minuten[0] = true;
+                }
+
+                if (minuten[0])
+                {
+                    sekunden = minutenZahl[0] + ":" + sekundenZahl[0];
+                }
+
+                // Titel der ActionBar festlegen
+                getSupportActionBar().setTitle(sekunden);
                 sekundenZahl[0]++;
                 handler.postDelayed(this, delay);
             }
