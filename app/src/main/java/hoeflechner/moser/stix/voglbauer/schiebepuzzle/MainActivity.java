@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
+    private static boolean[] countTime = new boolean[1];
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -99,12 +101,13 @@ public class MainActivity extends AppCompatActivity {
         minutenZahl[0] = 0;
         boolean[] minuten = new boolean[1];
         minuten[0] = false;
+        countTime[0] = true;
 
         // Jede Sekunde die Sekundenzahl hochzählen
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                String sekunden = String.valueOf(sekundenZahl[0]);
+                String zeit = String.valueOf(sekundenZahl[0]);
                 // In Sekunden und Minuten anzeigen
                 if (sekundenZahl[0] == 60)
                 {
@@ -115,12 +118,21 @@ public class MainActivity extends AppCompatActivity {
 
                 if (minuten[0])
                 {
-                    sekunden = minutenZahl[0] + ":" + sekundenZahl[0];
+                    zeit = minutenZahl[0] + ":" + sekundenZahl[0];
                 }
 
-                // Titel der ActionBar festlegen
-                getSupportActionBar().setTitle(sekunden);
-                sekundenZahl[0]++;
+                // Erste Zehn Sekunden nach neuer Minute
+                if (minuten[0] && sekundenZahl[0] < 10)
+                {
+                    zeit = minutenZahl[0] + ":0" + sekundenZahl[0];
+                }
+
+                if (countTime[0])
+                {
+                    // Titel der ActionBar festlegen
+                    getSupportActionBar().setTitle(zeit);
+                    sekundenZahl[0]++;
+                }
                 handler.postDelayed(this, delay);
             }
         }, delay);
@@ -131,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
+        countTime[0] = false;
         if (music)
         {
             mp.pause();
@@ -141,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        countTime[0] = true;
         if (music)
         {
             mp.start();
