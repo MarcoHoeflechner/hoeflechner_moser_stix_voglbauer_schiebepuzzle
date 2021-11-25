@@ -20,6 +20,8 @@ public class PuzzleView extends GridView {
     private static final int SWIPE_MAX_OFF_PATH = 130;
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
 
+    private StaticFixer staticFixer;
+
     public PuzzleView(Context context) {
         super(context);
         init(context);
@@ -69,18 +71,18 @@ public class PuzzleView extends GridView {
                         return false;
                     }
                     if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE) {
-                      MainActivity.moveTiles(context, MainActivity.UP, position);
+                      MainActivity.moveTiles(context, MainActivity.UP, position, staticFixer);
                     } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE) {
-                        MainActivity.moveTiles(context, MainActivity.DOWN, position);
+                        MainActivity.moveTiles(context, MainActivity.DOWN, position, staticFixer);
                     }
                 } else {
                     if (Math.abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
                         return false;
                     }
                     if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
-                        MainActivity.moveTiles(context, MainActivity.LEFT, position);
+                        MainActivity.moveTiles(context, MainActivity.LEFT, position, staticFixer);
                     } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
-                        MainActivity.moveTiles(context, MainActivity.RIGHT, position);
+                        MainActivity.moveTiles(context, MainActivity.RIGHT, position, staticFixer);
                     }
                 }
 
@@ -119,5 +121,14 @@ public class PuzzleView extends GridView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return gDetector.onTouchEvent(ev);
+    }
+
+    //Getter & Setter
+    public StaticFixer getStaticFixer() {
+        return staticFixer;
+    }
+
+    public void setStaticFixer(StaticFixer staticFixer) {
+        this.staticFixer = staticFixer;
     }
 }

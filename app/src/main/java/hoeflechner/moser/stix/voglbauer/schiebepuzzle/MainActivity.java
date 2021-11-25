@@ -8,7 +8,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Handler;
+import android.view.HapticFeedbackConstants;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mp;
     private static MediaPlayer soundEffectPlayer;
     private static Long startTime;
-    private static double startTimeDouble;
-    private static double playTimeDouble;
+    private static Long playTime;
 
     private static int blackPosition=8;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String[] tileList;
 
-    private static PuzzleView erkennungView;
+    private static PuzzleView puzzleView;
 
     private static int columnWidth, columnHeight;
 
@@ -44,11 +45,31 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    private StaticFixer staticFixer = new StaticFixer(MainActivity.this);
+
     // Bestzeit dauerhaft speichern
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
-    private static boolean[] countTime = new boolean[1];
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.mybutton) {
+            pauseGame();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -58,11 +79,8 @@ public class MainActivity extends AppCompatActivity {
         // SharedPreferences
         sharedPreferences = getSharedPreferences("TimeValue", 0);
         editor = sharedPreferences.edit();
-        // Spielzeit wird als Long abgespeichert und in double umgewandelt
-        Long tmp = sharedPreferences.getLong("playTime", Double.doubleToRawLongBits(100L));
-        playTimeDouble = Double.longBitsToDouble(tmp);
-        System.out.println(playTimeDouble);
-        System.out.println("PlayTime Highscore: " + playTimeDouble);
+        playTime = sharedPreferences.getLong("playTime", 0);
+        System.out.println("PlayTime: " + playTime);
 
         // Hintergrundmusik
         Intent intent = getIntent();
@@ -81,61 +99,17 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
         }
 
-        init();
+        init(staticFixer);
 
         scramble();
 
         setDimensions();
 
         // Zeitstempel, um die Zeit nach der das Puzzle fertig gestellt wurde, zu ermitteln
-        startTime = System.currentTimeMillis();
-        startTimeDouble = startTime.doubleValue();
-        System.out.println(startTimeDouble);
+        startTime = System.currentTimeMillis()/1000;
 
-        // Jede Sekunde hochzählen
-        final Handler handler = new Handler();
-        final int delay = 1000;
-        int[] sekundenZahl = new int[1];
-        sekundenZahl[0] = 1;
-        int[] minutenZahl = new int[1];
-        minutenZahl[0] = 0;
-        boolean[] minuten = new boolean[1];
-        minuten[0] = false;
-        countTime[0] = true;
-
-        // Jede Sekunde die Sekundenzahl hochzählen
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String zeit = String.valueOf(sekundenZahl[0]);
-                // In Sekunden und Minuten anzeigen
-                if (sekundenZahl[0] == 60)
-                {
-                    minutenZahl[0]++;
-                    sekundenZahl[0] = 0;
-                    minuten[0] = true;
-                }
-
-                if (minuten[0])
-                {
-                    zeit = minutenZahl[0] + ":" + sekundenZahl[0];
-                }
-
-                // Erste Zehn Sekunden nach neuer Minute
-                if (minuten[0] && sekundenZahl[0] < 10)
-                {
-                    zeit = minutenZahl[0] + ":0" + sekundenZahl[0];
-                }
-
-                if (countTime[0])
-                {
-                    // Titel der ActionBar festlegen
-                    getSupportActionBar().setTitle(zeit);
-                    sekundenZahl[0]++;
-                }
-                handler.postDelayed(this, delay);
-            }
-        }, delay);
+        //Win PopUp öffnen
+        staticFixer.startActivity();
     }
 
     // Wird aufgerufen wenn die App verlassen, jedoch nicht vollständig geschlossen wird
@@ -143,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
-        countTime[0] = false;
         if (music)
         {
             mp.pause();
@@ -154,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-        countTime[0] = true;
         if (music)
         {
             mp.start();
@@ -162,13 +134,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDimensions() {
-        ViewTreeObserver vto = erkennungView.getViewTreeObserver();
+        ViewTreeObserver vto = puzzleView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                erkennungView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                int displayWidth = erkennungView.getWidth();
-                int displayHeight = erkennungView.getHeight();
+                puzzleView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int displayWidth = puzzleView.getWidth();
+                int displayHeight = puzzleView.getHeight();
 
                 int statusbarHeight = getStatusBarHeight(getApplicationContext());
                 int requiredHeight = displayHeight - statusbarHeight;
@@ -230,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             buttons.add(button);
         }
 
-        erkennungView.setAdapter(new CustomAdapter(buttons, columnWidth, columnHeight));
+        puzzleView.setAdapter(new CustomAdapter(buttons, columnWidth, columnHeight));
     }
 
     private void scramble() {
@@ -246,16 +218,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void init(){
-        erkennungView = (PuzzleView) findViewById(R.id.grid);
-        erkennungView.setNumColumns(COLUMNS);
+    public void init(StaticFixer staticFixer){
+        puzzleView = (PuzzleView) findViewById(R.id.grid);
+        puzzleView.setStaticFixer(staticFixer);
+        puzzleView.setNumColumns(COLUMNS);
         tileList=new String[DIMENSIONS];
         for (int i = 0; i < DIMENSIONS; i++) {
             tileList[i]=String.valueOf(i);
         }
     }
 
-    private static void swap(Context context, int position, int swap){
+    private static void swap(Context context, int position, int swap, StaticFixer staticFixer){
+
+        //Haptisches Feedback
+        puzzleView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+
         // Soundeffekt abspielen
         soundEffectPlayer.start();
         String newPosition = tileList[position+swap];
@@ -263,25 +240,26 @@ public class MainActivity extends AppCompatActivity {
         tileList[position]=newPosition;
         display(context);
 
-       if( isSolved())
-       {
-           //Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+
+
+        //TODO: Pop hier öffnen
+        //Überprüfung, ob das Puzzle gelöst wurde
+        if(isSolved())
+        {
+            Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+
+            //Win PopUp öffnen
+            staticFixer.startActivity();
 
            // Spielzeit berechnen und speichern
-           Long currentPlayTime = System.currentTimeMillis();
-           double currentPlayTimeDouble = currentPlayTime.doubleValue();
-           System.out.println(currentPlayTimeDouble);
-           System.out.println(startTimeDouble);
-           double endTimeDouble = (currentPlayTimeDouble - startTimeDouble) / 1000;
-           System.out.println("Spielzeit: " + String.format("%.2f", endTimeDouble));
-           System.out.println(playTimeDouble);
+           Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
+           String playTimeString = currentPlayTime.toString();
+           System.out.println("Spielzeit: " + playTimeString);
 
-           if (endTimeDouble < playTimeDouble)
+           if (currentPlayTime < playTime)
            {
                // Spielzeit speichern
-               System.out.println("Spielzeit wird gespeichert ...");
-               long playTimeLong = Double.doubleToRawLongBits(endTimeDouble);
-               editor.putLong("playTime", playTimeLong);
+               editor.putLong("playTime", currentPlayTime);
                editor.commit();
            }
        }
@@ -291,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
     {
         boolean solved=true;
 
-        /*for (int i = 0; i < tileList.length; i++) {
+        for (int i = 0; i < tileList.length; i++) {
             if (tileList[i].equals(String.valueOf(i))) {
                 solved=true;
             }
@@ -299,23 +277,23 @@ public class MainActivity extends AppCompatActivity {
                 solved=false;
                 break;
             }
-        }*/
+        }
 
         return solved;
     }
 
-    public static void moveTiles(Context context, String richtung, int position){
+    public static void moveTiles(Context context, String richtung, int position, StaticFixer staticFixer){
 
 
 
     //Tiles oben links
         if(position == 0){
             if(richtung.equals(RIGHT) &&blackPosition==1){
-                swap(context, position, 1);
+                swap(context, position, 1, staticFixer);
                 blackPosition=0;
             }
             else if(richtung.equals(DOWN)&&blackPosition==3){
-                swap(context, position, COLUMNS);
+                swap(context, position, COLUMNS, staticFixer);
                 blackPosition=0;
             }
             else {
@@ -329,15 +307,15 @@ public class MainActivity extends AppCompatActivity {
         //Tiles oben mitte
         else if(position > 0 && position < COLUMNS-1){
             if(richtung.equals(LEFT) && blackPosition==0){
-                swap(context, position, -1);
+                swap(context, position, -1, staticFixer);
                 blackPosition=1;
             }
             else if(richtung.equals(DOWN)&&blackPosition==4){
-                swap(context, position, COLUMNS);
+                swap(context, position, COLUMNS, staticFixer);
                 blackPosition=1;
             }
             else if(richtung.equals(RIGHT)&&blackPosition==2){
-                swap(context, position, 1);
+                swap(context, position, 1, staticFixer);
                 blackPosition=1;
             }
             else {
@@ -348,11 +326,11 @@ public class MainActivity extends AppCompatActivity {
         //Tiles oben rechts
         else if(position == COLUMNS-1){
             if(richtung.equals(LEFT)&&blackPosition==1){
-                swap(context, position, -1);
+                swap(context, position, -1, staticFixer);
                 blackPosition=2;
             }
             else if(richtung.equals(DOWN)&& blackPosition==5){
-                swap(context, position, COLUMNS);
+                swap(context, position, COLUMNS, staticFixer);
                 blackPosition=2;
             }
             else {
@@ -363,16 +341,16 @@ public class MainActivity extends AppCompatActivity {
         //Tiles mitte links
         else if(position > COLUMNS-1 && position < DIMENSIONS-COLUMNS && position%COLUMNS == 0 ){
             if(richtung.equals(UP)&&blackPosition==0){
-                swap(context, position, -COLUMNS);
+                swap(context, position, -COLUMNS, staticFixer);
 
                 blackPosition=3;
             }
             else if(richtung.equals(RIGHT)&&blackPosition==4){
-                swap(context, position, 1);
+                swap(context, position, 1, staticFixer);
                 blackPosition=3;
             }
             else if(richtung.equals(DOWN)&&blackPosition==6){
-                swap(context, position, COLUMNS);
+                swap(context, position, COLUMNS, staticFixer);
                 blackPosition=3;
 
             }
@@ -384,15 +362,15 @@ public class MainActivity extends AppCompatActivity {
         //Tiles rechts mitte
         else if(position == COLUMNS*2 -1){
             if(richtung.equals(UP)&&blackPosition==2){
-                swap(context, position, -COLUMNS);
+                swap(context, position, -COLUMNS, staticFixer);
                 blackPosition=5;
             }
             else if(richtung.equals(LEFT) &&blackPosition==4){
-                swap(context, position, -1);
+                swap(context, position, -1, staticFixer);
                 blackPosition=5;
             }
             else if(richtung.equals(DOWN)&&blackPosition==8){
-                    swap(context, position, COLUMNS);
+                    swap(context, position, COLUMNS, staticFixer);
                     blackPosition=5;
 
             }
@@ -403,11 +381,11 @@ public class MainActivity extends AppCompatActivity {
         //Tiles unten rechts
         else if(position==COLUMNS*3-1){
             if(richtung.equals(UP)&&blackPosition==5){
-                swap(context, position, -COLUMNS);
+                swap(context, position, -COLUMNS, staticFixer);
                 blackPosition=8;
             }
             else if(richtung.equals(LEFT) &&blackPosition==7){
-                swap(context, position, -1);
+                swap(context, position, -1, staticFixer);
                 blackPosition=8;
             }
             else if(richtung.equals(DOWN)&&blackPosition==8){
@@ -423,11 +401,11 @@ public class MainActivity extends AppCompatActivity {
         //Tiles unten links
         else if(position == DIMENSIONS - COLUMNS){
             if(richtung.equals(UP)&&blackPosition==3){
-                swap(context, position, -COLUMNS);
+                swap(context, position, -COLUMNS, staticFixer);
                 blackPosition=6;
             }
             else if(richtung.equals(RIGHT)&&blackPosition==7){
-                swap(context, position, 1);
+                swap(context, position, 1, staticFixer);
                 blackPosition=6;
             }
             else {
@@ -438,15 +416,15 @@ public class MainActivity extends AppCompatActivity {
         //Tiles unten mitte
         else if(position < DIMENSIONS - 1 && position>DIMENSIONS-COLUMNS){
             if(richtung.equals(UP)&&blackPosition==4){
-                swap(context, position, -COLUMNS);
+                swap(context, position, -COLUMNS, staticFixer);
                 blackPosition=7;
             }
             else if(richtung.equals(LEFT)&&blackPosition==6){
-                swap(context, position, -1);
+                swap(context, position, -1, staticFixer);
                 blackPosition=7;
             }
             else if(richtung.equals(RIGHT)&&blackPosition==8){
-                swap(context, position, 1);
+                swap(context, position, 1, staticFixer);
                 blackPosition=7;
             }
             else {
@@ -457,23 +435,28 @@ public class MainActivity extends AppCompatActivity {
         //Tiles mitte
         else{
             if(richtung.equals(UP)&&blackPosition==1){
-                swap(context, position, -COLUMNS);
+                swap(context, position, -COLUMNS, staticFixer);
                 blackPosition=4;
             }
             else if(richtung.equals(LEFT)&&blackPosition==3){
-                swap(context, position, -1);
+                swap(context, position, -1, staticFixer);
                 blackPosition=4;
             }
             else if(richtung.equals(RIGHT)&&blackPosition==5){
-                swap(context, position, 1);
+                swap(context, position, 1, staticFixer);
                 blackPosition=4;
             }
             else if(richtung.equals(DOWN)&&blackPosition==7) {
-                swap(context, position, COLUMNS);
+                swap(context, position, COLUMNS, staticFixer);
                 blackPosition=4;
             }
         }
+    }
 
+    public void pauseGame()
+    {
+        Intent intent = new Intent(this, PauseMenuActivity.class);
+        startActivity(intent);
     }
 
 }

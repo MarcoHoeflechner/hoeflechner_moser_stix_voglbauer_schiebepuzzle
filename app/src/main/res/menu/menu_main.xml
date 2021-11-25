@@ -2,9 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="hoeflechner.moser.stix.voglbauer.schiebepuzzle.MainActivity">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="always" />
+        android:id="@+id/mybutton"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_pause"
+        />
 </menu>
