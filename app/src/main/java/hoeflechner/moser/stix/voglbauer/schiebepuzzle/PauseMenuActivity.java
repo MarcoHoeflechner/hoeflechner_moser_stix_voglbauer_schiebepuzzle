@@ -31,6 +31,7 @@ public class PauseMenuActivity extends AppCompatActivity
 
     public void exitGame(View view)
     {
-        System.exit(1);
+        finishAffinity();
+        System.exit(0);
     }
 }

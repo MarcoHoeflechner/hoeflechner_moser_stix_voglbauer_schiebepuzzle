@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private static MediaPlayer soundEffectPlayer;
     private static Long startTime;
     private static Long playTime;
+    private static double startTimeDouble;
+    private static double playTimeDouble;
 
     private static int blackPosition=8;
 
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     // Bestzeit dauerhaft speichern
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
+
+    private static boolean[] countTime = new boolean[1];
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,7 +111,55 @@ public class MainActivity extends AppCompatActivity {
         setDimensions();
 
         // Zeitstempel, um die Zeit nach der das Puzzle fertig gestellt wurde, zu ermitteln
-        startTime = System.currentTimeMillis()/1000;
+        startTime = System.currentTimeMillis();
+        startTimeDouble = startTime.doubleValue();
+        System.out.println(startTimeDouble);
+
+        // Jede Sekunde hochzählen
+        final Handler handler = new Handler();
+        final int delay = 1000;
+        int[] sekundenZahl = new int[1];
+        sekundenZahl[0] = 1;
+        int[] minutenZahl = new int[1];
+        minutenZahl[0] = 0;
+        boolean[] minuten = new boolean[1];
+        minuten[0] = false;
+        countTime[0] = true;
+
+
+        // Jede Sekunde die Sekundenzahl hochzählen
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String zeit = String.valueOf(sekundenZahl[0]);
+                // In Sekunden und Minuten anzeigen
+                if (sekundenZahl[0] == 60)
+                {
+                    minutenZahl[0]++;
+                    sekundenZahl[0] = 0;
+                    minuten[0] = true;
+                }
+
+                if (minuten[0])
+                {
+                    zeit = minutenZahl[0] + ":" + sekundenZahl[0];
+                }
+
+                // Erste Zehn Sekunden nach neuer Minute
+                if (minuten[0] && sekundenZahl[0] < 10)
+                {
+                    zeit = minutenZahl[0] + ":0" + sekundenZahl[0];
+                }
+
+                if (countTime[0])
+                {
+                    // Titel der ActionBar festlegen
+                    getSupportActionBar().setTitle(zeit);
+                    sekundenZahl[0]++;
+                }
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
 
         //Win PopUp öffnen
         staticFixer.startActivity();
@@ -117,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
+        countTime[0] = false;
         if (music)
         {
             mp.pause();
@@ -127,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        countTime[0] = true;
         if (music)
         {
             mp.start();
@@ -267,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static boolean isSolved()
     {
-        boolean solved=true;
+        boolean solved=false;
 
         for (int i = 0; i < tileList.length; i++) {
             if (tileList[i].equals(String.valueOf(i))) {

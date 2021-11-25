@@ -6,14 +6,18 @@
         <entry key="..\:/A_Hauptordner/A_Schulordner/5BHIT/ITP/LOIS/Puzzleapp Project/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/activity_main_menu.xml" value="0.264" />
         <entry key="..\:/A_Hauptordner/A_Schulordner/5BHIT/ITP/LOIS/Puzzleapp Project/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/activity_menu.xml" value="0.27447916666666666" />
         <entry key="..\:/A_Hauptordner/A_Schulordner/5BHIT/ITP/LOIS/Puzzleapp Project/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/menu.xml" value="0.27447916666666666" />
-        <entry key="..\:/A_Hauptordner/A_Schulordner/5BHIT/ITP/LOIS/Puzzleapp Project/schiebepuzzle/app/src/main/res/drawable/ic_action_paused.xml" value="0.290625" />
-        <entry key="..\:/A_Hauptordner/A_Schulordner/5BHIT/ITP/LOIS/Puzzleapp Project/schiebepuzzle/app/src/main/res/layout/activity_pause_menu.xml" value="0.23369565217391305" />
-        <entry key="..\:/A_Hauptordner/A_Schulordner/5BHIT/ITP/LOIS/Puzzleapp Project/schiebepuzzle/app/src/main/res/layout/winner_popup.xml" value="0.264" />
-        <entry key="..\:/A_Hauptordner/A_Schulordner/5BHIT/ITP/LOIS/Puzzleapp Project/schiebepuzzle/app/src/main/res/menu/menu_main.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/mhoef/AndroidStudioProjects/Schiebepuzzle/app/src/main/res/layout/activity_main.xml" value="0.24682971014492755" />
         <entry key="..\:/Users/mhoef/AndroidStudioProjects/Schiebepuzzle/app/src/main/res/layout/menu.xml" value="0.24682971014492755" />
-        <entry key="..\:/Users/mhoef/AndroidStudioProjects/Schiebepuzzle/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/drawable-hdpi/ic_action_exit.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/drawable-hdpi/ic_action_pause.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/drawable-hdpi/ic_action_paused.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/drawable-hdpi/ic_action_replay.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/activity_menu.xml" value="0.25" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/activity_pause_menu.xml" value="0.25" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/activity_settings_menu.xml" value="0.25" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/layout/winner_popup.xml" value="0.1" />
+        <entry key="..\:/Users/sebas/AndroidStudioProjects/hoeflechner_moser_stix_voglbauer_schiebepuzzle/app/src/main/res/menu/menu_main.xml" value="0.1" />
       </map>
     </option>
   </component>
