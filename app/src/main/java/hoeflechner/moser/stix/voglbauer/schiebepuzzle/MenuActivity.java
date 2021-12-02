@@ -43,7 +43,7 @@ public class MenuActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchToPlayground();
+                switchToDifficultyChoosing();
             }
         });
 
@@ -62,8 +62,8 @@ public class MenuActivity extends AppCompatActivity {
         startActivityForResult(intent, TEXT_REQUEST);
     }
 
-    private void switchToPlayground() {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void switchToDifficultyChoosing() {
+        Intent intent = new Intent(this, DifficultyActivity.class);
         // Musiksteuerung
         intent.putExtra(EXTRA_MESSAGE, music);
         startActivity(intent);
