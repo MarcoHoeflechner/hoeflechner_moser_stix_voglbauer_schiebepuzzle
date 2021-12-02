@@ -34,6 +34,7 @@ public class MenuActivity extends AppCompatActivity {
         // SharedPreferences
         sharedPreferences = getSharedPreferences("MusicValue", 0);
         editor = sharedPreferences.edit();
+
         // Der Musikwert wird abgerufen, wenn es noch keinen gibt, wird der defaultwert, hier false verwendet
         music = sharedPreferences.getBoolean("MusicValue", true);
 
