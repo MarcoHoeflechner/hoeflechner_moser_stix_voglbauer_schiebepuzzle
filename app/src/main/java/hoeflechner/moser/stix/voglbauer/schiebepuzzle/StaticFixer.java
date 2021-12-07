@@ -1,13 +1,19 @@
 package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 public class StaticFixer extends Application {
 
     //Attributes
-    private Context mainContext;
+    public Context mainContext;
+    public MainActivity mainActivity;
+    public static int randomImage;
 
 
     //-----Erster Versuch eine neue Activity in einer static Methode zu starten
@@ -39,17 +45,31 @@ public class StaticFixer extends Application {
     */
 
     //Basic Konstruktor
-    public StaticFixer(Context mainContext) {
+    public StaticFixer(Context mainContext, MainActivity mainActivity) {
         this.mainContext = mainContext;
         System.out.println("WICHTIG: "+mainContext.toString());
+        this.mainActivity=mainActivity;
+
 
     }
 
     //Startet eine neue Activity
-    public void startActivity() {
+    public void startActivity(int randomImage, String score, String highScore) {
 
         Intent intent = new Intent(mainContext, Pop.class);
+        intent.putExtra("random", randomImage);
+        intent.putExtra("highScore", highScore);
+        intent.putExtra("score", score);
         mainContext.startActivity(intent);
+    }
+
+
+    public void setRandomImage(int randomImage){
+        this.randomImage=randomImage;
+    }
+
+    public static int getRandomImage() {
+        return randomImage;
     }
 
     //Getter & Setter
@@ -59,6 +79,11 @@ public class StaticFixer extends Application {
 
     public void setMainContext(Context mainContext) {
         this.mainContext = mainContext;
+    }
+
+
+    public void moveTiles(Context context, String richtung, int position, StaticFixer staticFixer){
+        mainActivity.moveTiles(context,richtung, position, staticFixer);
     }
 }
 

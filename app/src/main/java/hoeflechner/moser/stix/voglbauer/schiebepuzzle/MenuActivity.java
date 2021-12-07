@@ -3,6 +3,7 @@ package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,7 +19,8 @@ public class MenuActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "hoeflechner.moser.stix.voglbauer.schiebepuzzle.extra.MESSAGE";
 
     // Variable für Ein/Ausschalter
-    private Boolean music;
+    public static Boolean music;
+
 
     public static final int TEXT_REQUEST = 1;
 
@@ -66,6 +68,7 @@ public class MenuActivity extends AppCompatActivity {
     private void switchToDifficultyChoosing() {
         Intent intent = new Intent(this, DifficultyActivity.class);
         // Musiksteuerung
+        intent.putExtra("random", 0);
         intent.putExtra(EXTRA_MESSAGE, music);
         startActivity(intent);
     }

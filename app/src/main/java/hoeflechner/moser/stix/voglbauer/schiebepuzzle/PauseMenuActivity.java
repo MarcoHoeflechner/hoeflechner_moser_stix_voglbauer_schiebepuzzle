@@ -26,6 +26,15 @@ public class PauseMenuActivity extends AppCompatActivity
     public void restartGame(View view)
     {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("random", 0);
+        intent.putExtra(MenuActivity.EXTRA_MESSAGE, MenuActivity.music);
+        startActivity(intent);
+    }
+
+    public void returnToMenu(View view)
+    {
+        Intent intent=new Intent(getApplicationContext(), MenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

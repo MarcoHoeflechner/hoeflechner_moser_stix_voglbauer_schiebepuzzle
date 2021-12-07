@@ -1,8 +1,10 @@
 package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -12,11 +14,14 @@ import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,26 +34,36 @@ public class MainActivity extends AppCompatActivity {
     private static Long playTime;
     private static double startTimeDouble;
     private static double playTimeDouble;
+    public int counter;
+    public static final int FLAG_ACTIVITY_NO_HISTORY = 0;
 
-    private static int blackPosition=8;
 
-    private static final int COLUMNS= 3;
-    private static final int DIMENSIONS =COLUMNS * COLUMNS;
+    private  int blackPosition=8;
 
-    private static String[] tileList;
+    private final int COLUMNS= 3;
+    private  final int DIMENSIONS =COLUMNS * COLUMNS;
 
-    private static PuzzleView puzzleView;
+    private String[] tileList;
 
-    private static int columnWidth, columnHeight;
+    private  PuzzleView puzzleView;
 
-    public static final String UP="up";
-    public static final String DOWN="down";
-    public static final String LEFT="left";
-    public static final String RIGHT="right";
+    public  int randomImage;
+    public  String zeit;
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public int[]flamingoIDs=new int[8];
+    public int[]graffitiIDs=new int[8];
+    public int[]mountainIDs=new int[8];
+    public int[]moneyIDs=new int[8];
+    public int[]syntheticIDs=new int[8];
 
-    private StaticFixer staticFixer = new StaticFixer(MainActivity.this);
+    private  int columnWidth, columnHeight;
+
+    public final String UP="up";
+    public final String DOWN="down";
+    public final String LEFT="left";
+    public final String RIGHT="right";
+
+    private StaticFixer staticFixer = new StaticFixer(MainActivity.this, this);
 
     // Bestzeit dauerhaft speichern
     private static SharedPreferences sharedPreferences;
@@ -73,13 +88,43 @@ public class MainActivity extends AppCompatActivity {
             pauseGame();
 
         }
+        if (id == R.id.imageButton) {
+            Intent intent = new Intent(this, ImageActivity.class);
+
+            switch (randomImage){
+                case 1:
+                    intent.putExtra("image", R.drawable.flamingo1);
+                    break;
+                case 2:
+                    intent.putExtra("image", R.drawable.graffiti1);
+                    break;
+                case 3:
+                    intent.putExtra("image", R.drawable.m1);
+                    break;
+                case 4:
+                    intent.putExtra("image", R.drawable.money1);
+                    break;
+                case 5:
+                    intent.putExtra("image", R.drawable.part1);
+                    break;
+                default:
+                    intent.putExtra("image", R.drawable.flamingo1);
+                    break;
+            }
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        counter=0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //Alle Drawable IDs einlesen
+        readAllImages();
 
         // SharedPreferences
         sharedPreferences = getSharedPreferences("TimeValue", 0);
@@ -131,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                String zeit = String.valueOf(sekundenZahl[0]);
+                zeit = String.valueOf(sekundenZahl[0]);
                 // In Sekunden und Minuten anzeigen
                 if (sekundenZahl[0] == 60)
                 {
@@ -161,8 +206,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, delay);
 
-        //Win PopUp öffnen
-        staticFixer.startActivity();
+
     }
 
     // Wird aufgerufen wenn die App verlassen, jedoch nicht vollständig geschlossen wird
@@ -219,36 +263,61 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    private static void display(Context context) {
+    public void display(Context context) {
         ArrayList<Button> buttons=new ArrayList<>();
         Button button;
+
+        int id=getResources().getIdentifier("flamingo1", "drawable",this.getPackageName());
+
+        int []tempArray=new int[8];
+
+        switch (randomImage){
+            case 1:
+                tempArray = flamingoIDs.clone();
+                break;
+            case 2:
+                tempArray = graffitiIDs.clone();
+                break;
+            case 3:
+                tempArray = mountainIDs.clone();
+                break;
+            case 4:
+                tempArray = moneyIDs.clone();
+                break;
+            case 5:
+                tempArray = syntheticIDs.clone();
+                break;
+            default:
+                tempArray = flamingoIDs.clone();
+                break;
+        }
 
         for (int i = 0; i < tileList.length; i++) {
             button = new Button(context);
 
             if(tileList[i].equals("0")) {
-                button.setBackgroundResource(R.drawable.m1); //Bilder einfügen
+                button.setBackgroundResource(tempArray[0]); //Bilder einfügen
             }
             else if(tileList[i].equals("1")){
-                button.setBackgroundResource(R.drawable.m2);
+                button.setBackgroundResource(tempArray[1]);
             }
             else if(tileList[i].equals("2")){
-                button.setBackgroundResource(R.drawable.m3);
+                button.setBackgroundResource(tempArray[2]);
             }
             else if(tileList[i].equals("3")){
-                button.setBackgroundResource(R.drawable.m4);
+                button.setBackgroundResource(tempArray[3]);
             }
             else if(tileList[i].equals("4")){
-                button.setBackgroundResource(R.drawable.m5);
+                button.setBackgroundResource(tempArray[4]);
             }
             else if(tileList[i].equals("5")){
-                button.setBackgroundResource(R.drawable.m6);
+                button.setBackgroundResource(tempArray[5]);
             }
             else if(tileList[i].equals("6")){
-                button.setBackgroundResource(R.drawable.m7);
+                button.setBackgroundResource(tempArray[6]);
             }
             else if(tileList[i].equals("7")){
-                button.setBackgroundResource(R.drawable.m8);
+                button.setBackgroundResource(tempArray[7]);
             }
             else if(tileList[i].equals("8")){
                 button.setBackgroundResource(R.drawable.black_image);
@@ -274,16 +343,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init(StaticFixer staticFixer){
+        counter=0;
+        Bundle extras=getIntent().getExtras();
+        if(extras.getInt("random")!=0){
+            randomImage=extras.getInt("random");
+        }
+        else {
+            generateRandom();
+        }
         puzzleView = (PuzzleView) findViewById(R.id.grid);
         puzzleView.setStaticFixer(staticFixer);
         puzzleView.setNumColumns(COLUMNS);
         tileList=new String[DIMENSIONS];
+        //Arrays.fill(tileList, null);
         for (int i = 0; i < DIMENSIONS; i++) {
             tileList[i]=String.valueOf(i);
         }
     }
 
-    private static void swap(Context context, int position, int swap, StaticFixer staticFixer){
+    private void swap(Context context, int position, int swap, StaticFixer staticFixer){
 
         //Haptisches Feedback
         puzzleView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
@@ -304,27 +382,28 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
 
             //Win PopUp öffnen
-            staticFixer.startActivity();
+            //staticFixer.startActivity(randomImage);
 
-           // Spielzeit berechnen und speichern
-           Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
-           String playTimeString = currentPlayTime.toString();
-           System.out.println("Spielzeit: " + playTimeString);
+            // Spielzeit berechnen und speichern
+            Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
+            String playTimeString = currentPlayTime.toString();
+            System.out.println("Spielzeit: " + playTimeString);
 
-           if (currentPlayTime < playTime)
-           {
-               // Spielzeit speichern
-               editor.putLong("playTime", currentPlayTime);
-               editor.commit();
-           }
-       }
+            if (currentPlayTime < playTime)
+            {
+                // Spielzeit speichern
+                editor.putLong("playTime", currentPlayTime);
+                editor.commit();
+            }
+        }
     }
 
-    private static boolean isSolved()
+    private boolean isSolved()
     {
         boolean solved=false;
 
         for (int i = 0; i < tileList.length; i++) {
+            System.out.println(String.valueOf(i));
             if (tileList[i].equals(String.valueOf(i))) {
                 solved=true;
             }
@@ -333,15 +412,22 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+        if(counter==5){
+            Long tmp=sharedPreferences.getLong("playTime", Double.doubleToRawLongBits(100L));
+            playTimeDouble=Double.longBitsToDouble(tmp);
 
+            staticFixer.startActivity(randomImage,zeit, Double.toString(playTimeDouble));
+
+        }
+        counter++;
         return solved;
     }
 
-    public static void moveTiles(Context context, String richtung, int position, StaticFixer staticFixer){
+    public void moveTiles(Context context, String richtung, int position, StaticFixer staticFixer){
 
 
 
-    //Tiles oben links
+        //Tiles oben links
         if(position == 0){
             if(richtung.equals(RIGHT) &&blackPosition==1){
                 swap(context, position, 1, staticFixer);
@@ -425,8 +511,8 @@ public class MainActivity extends AppCompatActivity {
                 blackPosition=5;
             }
             else if(richtung.equals(DOWN)&&blackPosition==8){
-                    swap(context, position, COLUMNS, staticFixer);
-                    blackPosition=5;
+                swap(context, position, COLUMNS, staticFixer);
+                blackPosition=5;
 
             }
             else {
@@ -445,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if(richtung.equals(DOWN)&&blackPosition==8){
 
-                    Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
+                Toast.makeText(context, "Bewegung ungültig", Toast.LENGTH_SHORT);
 
             }
             else {
@@ -513,5 +599,66 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PauseMenuActivity.class);
         startActivity(intent);
     }
+
+    public void readAllImages(){
+        flamingoIDs[0]=getResources().getIdentifier("flamingo1", "drawable",this.getPackageName());
+        flamingoIDs[1]=getResources().getIdentifier("flamingo2", "drawable",this.getPackageName());
+        flamingoIDs[2]=getResources().getIdentifier("flamingo3", "drawable",this.getPackageName());
+        flamingoIDs[3]=getResources().getIdentifier("flamingo4", "drawable",this.getPackageName());
+        flamingoIDs[4]=getResources().getIdentifier("flamingo5", "drawable",this.getPackageName());
+        flamingoIDs[5]=getResources().getIdentifier("flamingo6", "drawable",this.getPackageName());
+        flamingoIDs[6]=getResources().getIdentifier("flamingo7", "drawable",this.getPackageName());
+        flamingoIDs[7]=getResources().getIdentifier("flamingo8", "drawable",this.getPackageName());
+
+        graffitiIDs[0]=getResources().getIdentifier("graffiti1", "drawable",this.getPackageName());
+        graffitiIDs[1]=getResources().getIdentifier("graffiti2", "drawable",this.getPackageName());
+        graffitiIDs[2]=getResources().getIdentifier("graffiti3", "drawable",this.getPackageName());
+        graffitiIDs[3]=getResources().getIdentifier("graffiti4", "drawable",this.getPackageName());
+        graffitiIDs[4]=getResources().getIdentifier("graffiti5", "drawable",this.getPackageName());
+        graffitiIDs[5]=getResources().getIdentifier("graffiti6", "drawable",this.getPackageName());
+        graffitiIDs[6]=getResources().getIdentifier("graffiti7", "drawable",this.getPackageName());
+        graffitiIDs[7]=getResources().getIdentifier("graffiti8", "drawable",this.getPackageName());
+
+        mountainIDs[0]=getResources().getIdentifier("m1", "drawable",this.getPackageName());
+        mountainIDs[1]=getResources().getIdentifier("m2", "drawable",this.getPackageName());
+        mountainIDs[2]=getResources().getIdentifier("m3", "drawable",this.getPackageName());
+        mountainIDs[3]=getResources().getIdentifier("m4", "drawable",this.getPackageName());
+        mountainIDs[4]=getResources().getIdentifier("m5", "drawable",this.getPackageName());
+        mountainIDs[5]=getResources().getIdentifier("m6", "drawable",this.getPackageName());
+        mountainIDs[6]=getResources().getIdentifier("m7", "drawable",this.getPackageName());
+        mountainIDs[7]=getResources().getIdentifier("m8", "drawable",this.getPackageName());
+
+        moneyIDs[0]=getResources().getIdentifier("money1", "drawable",this.getPackageName());
+        moneyIDs[1]=getResources().getIdentifier("money2", "drawable",this.getPackageName());
+        moneyIDs[2]=getResources().getIdentifier("money3", "drawable",this.getPackageName());
+        moneyIDs[3]=getResources().getIdentifier("money4", "drawable",this.getPackageName());
+        moneyIDs[4]=getResources().getIdentifier("money5", "drawable",this.getPackageName());
+        moneyIDs[5]=getResources().getIdentifier("money6", "drawable",this.getPackageName());
+        moneyIDs[6]=getResources().getIdentifier("money7", "drawable",this.getPackageName());
+        moneyIDs[7]=getResources().getIdentifier("money8", "drawable",this.getPackageName());
+
+        syntheticIDs[0]=getResources().getIdentifier("part1", "drawable",this.getPackageName());
+        syntheticIDs[1]=getResources().getIdentifier("part2", "drawable",this.getPackageName());
+        syntheticIDs[2]=getResources().getIdentifier("part3", "drawable",this.getPackageName());
+        syntheticIDs[3]=getResources().getIdentifier("part4", "drawable",this.getPackageName());
+        syntheticIDs[4]=getResources().getIdentifier("part5", "drawable",this.getPackageName());
+        syntheticIDs[5]=getResources().getIdentifier("part6", "drawable",this.getPackageName());
+        syntheticIDs[6]=getResources().getIdentifier("part7", "drawable",this.getPackageName());
+        syntheticIDs[7]=getResources().getIdentifier("part8", "drawable",this.getPackageName());
+
+    }
+
+    //Chooses a random image
+    public void generateRandom(){
+        int min = 1;
+        int max = 5;
+
+        Random random = new Random();
+
+        randomImage = random.nextInt(max + min) + min;
+        staticFixer.setRandomImage(randomImage);
+    }
+
+
 
 }

@@ -6,6 +6,13 @@
     <!-- "Mark Favorite", should appear as action button if possible -->
 
     <item
+        android:id="@+id/imageButton"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_image"
+        />
+
+    <item
         android:id="@+id/mybutton"
         android:title=""
         app:showAsAction="always"

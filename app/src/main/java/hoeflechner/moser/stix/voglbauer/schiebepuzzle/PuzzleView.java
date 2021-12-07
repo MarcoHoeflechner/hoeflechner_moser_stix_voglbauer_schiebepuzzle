@@ -1,6 +1,7 @@
 package hoeflechner.moser.stix.voglbauer.schiebepuzzle;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -15,10 +16,11 @@ public class PuzzleView extends GridView {
     private float mTouchX;
     private float mTouchY;
     private static MediaPlayer mp;
+    private Activity mainActivity;
 
-    private static final int SWIPE_MIN_DISTANCE = 0;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 0;
+    private final int SWIPE_MIN_DISTANCE = 0;
+    private final int SWIPE_MAX_OFF_PATH = 250;
+    private final int SWIPE_THRESHOLD_VELOCITY = 0;
 
     private StaticFixer staticFixer;
 
@@ -50,6 +52,7 @@ public class PuzzleView extends GridView {
         mp = MediaPlayer.create(getContext(), R.raw.blop);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener()
         {
+
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
@@ -71,18 +74,18 @@ public class PuzzleView extends GridView {
                         return false;
                     }
                     if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE) {
-                      MainActivity.moveTiles(context, MainActivity.UP, position, staticFixer);
+                        staticFixer.moveTiles(context, "up", position, staticFixer);
                     } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE) {
-                        MainActivity.moveTiles(context, MainActivity.DOWN, position, staticFixer);
+                        staticFixer.moveTiles(context, "down", position, staticFixer);
                     }
                 } else {
                     if (Math.abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
                         return false;
                     }
                     if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
-                        MainActivity.moveTiles(context, MainActivity.LEFT, position, staticFixer);
+                        staticFixer.moveTiles(context, "left", position, staticFixer);
                     } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
-                        MainActivity.moveTiles(context, MainActivity.RIGHT, position, staticFixer);
+                        staticFixer.moveTiles(context, "right", position, staticFixer);
                     }
                 }
 

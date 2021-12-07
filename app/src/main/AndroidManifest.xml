@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Schiebepuzzle">
         <activity
-            android:name=".DifficultyActivity"
+            android:name=".ImageActivity"
             android:exported="false" />
         <activity
             android:name=".PauseMenuActivity"
