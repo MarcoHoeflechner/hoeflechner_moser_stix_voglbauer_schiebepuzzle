@@ -9,21 +9,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Schiebepuzzle">
+
+        <activity
+            android:name=".DifficultyActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ImageActivity"
             android:exported="false" />
+
         <activity
             android:name=".PauseMenuActivity"
             android:exported="true" />
+
         <activity
             android:name=".SettingsMenu"
             android:exported="true" />
         <activity android:name=".Pop" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Schiebepuzzle" />
+
         <activity
             android:name=".MenuActivity"
             android:exported="true">
@@ -33,10 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".BackgroundSoundService"
-            android:enabled="true" />
 
         <meta-data
             android:name="preloaded_fonts"
