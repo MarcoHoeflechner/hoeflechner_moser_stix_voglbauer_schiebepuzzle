@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public int[]graffitiIDs;
     public int[]mountainIDs;
     public int[]moneyIDs;
-    public int[]syntheticIDs;
+    public int[] mustangIDs;
 
     private  int columnWidth, columnHeight;
 
@@ -86,26 +86,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.imageButton) {
             Intent intent = new Intent(this, ImageActivity.class);
 
-            switch (randomImage){
-                case 1:
-                    intent.putExtra("image", R.drawable.flamingo1);
-                    break;
-                case 2:
-                    intent.putExtra("image", R.drawable.graffiti1);
-                    break;
-                case 3:
-                    intent.putExtra("image", R.drawable.m1);
-                    break;
-                case 4:
-                    intent.putExtra("image", R.drawable.money1);
-                    break;
-                case 5:
-                    intent.putExtra("image", R.drawable.part1);
-                    break;
-                default:
-                    intent.putExtra("image", R.drawable.flamingo1);
-                    break;
-            }
+            intent.putExtra("image", randomImage);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -138,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         graffitiIDs = new int[dimensions-1];
         mountainIDs = new int[dimensions-1];
         moneyIDs = new int[dimensions-1];
-        syntheticIDs = new int[dimensions-1];
+        mustangIDs = new int[dimensions-1];
 
         //Alle Drawable IDs einlesen
         readAllImages();
@@ -292,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 tempArray = moneyIDs.clone();
                 break;
             case 5:
-                tempArray = syntheticIDs.clone();
+                tempArray = mustangIDs.clone();
                 break;
             default:
                 tempArray = flamingoIDs.clone();
@@ -1637,14 +1618,14 @@ public class MainActivity extends AppCompatActivity {
             moneyIDs[6]=getResources().getIdentifier("money7", "drawable",this.getPackageName());
             moneyIDs[7]=getResources().getIdentifier("money8", "drawable",this.getPackageName());
 
-            syntheticIDs[0]=getResources().getIdentifier("part1", "drawable",this.getPackageName());
-            syntheticIDs[1]=getResources().getIdentifier("part2", "drawable",this.getPackageName());
-            syntheticIDs[2]=getResources().getIdentifier("part3", "drawable",this.getPackageName());
-            syntheticIDs[3]=getResources().getIdentifier("part4", "drawable",this.getPackageName());
-            syntheticIDs[4]=getResources().getIdentifier("part5", "drawable",this.getPackageName());
-            syntheticIDs[5]=getResources().getIdentifier("part6", "drawable",this.getPackageName());
-            syntheticIDs[6]=getResources().getIdentifier("part7", "drawable",this.getPackageName());
-            syntheticIDs[7]=getResources().getIdentifier("part8", "drawable",this.getPackageName());
+            mustangIDs[0]=getResources().getIdentifier("part1", "drawable",this.getPackageName());
+            mustangIDs[1]=getResources().getIdentifier("part2", "drawable",this.getPackageName());
+            mustangIDs[2]=getResources().getIdentifier("part3", "drawable",this.getPackageName());
+            mustangIDs[3]=getResources().getIdentifier("part4", "drawable",this.getPackageName());
+            mustangIDs[4]=getResources().getIdentifier("part5", "drawable",this.getPackageName());
+            mustangIDs[5]=getResources().getIdentifier("part6", "drawable",this.getPackageName());
+            mustangIDs[6]=getResources().getIdentifier("part7", "drawable",this.getPackageName());
+            mustangIDs[7]=getResources().getIdentifier("part8", "drawable",this.getPackageName());
         }
         else if(dimensions==16){
             flamingoIDs[0]=getResources().getIdentifier("flamingo_4x4_01", "drawable",this.getPackageName());
@@ -1711,21 +1692,21 @@ public class MainActivity extends AppCompatActivity {
             moneyIDs[13]=getResources().getIdentifier("money_4x4_14", "drawable",this.getPackageName());
             moneyIDs[14]=getResources().getIdentifier("money_4x4_15", "drawable",this.getPackageName());
 
-            syntheticIDs[0]=getResources().getIdentifier("gt3502_4x4_01", "drawable",this.getPackageName());
-            syntheticIDs[1]=getResources().getIdentifier("gt3502_4x4_02", "drawable",this.getPackageName());
-            syntheticIDs[2]=getResources().getIdentifier("gt3502_4x4_03", "drawable",this.getPackageName());
-            syntheticIDs[3]=getResources().getIdentifier("gt3502_4x4_04", "drawable",this.getPackageName());
-            syntheticIDs[4]=getResources().getIdentifier("gt3502_4x4_05", "drawable",this.getPackageName());
-            syntheticIDs[5]=getResources().getIdentifier("gt3502_4x4_06", "drawable",this.getPackageName());
-            syntheticIDs[6]=getResources().getIdentifier("gt3502_4x4_07", "drawable",this.getPackageName());
-            syntheticIDs[7]=getResources().getIdentifier("gt3502_4x4_08", "drawable",this.getPackageName());
-            syntheticIDs[8]=getResources().getIdentifier("gt3502_4x4_09", "drawable",this.getPackageName());
-            syntheticIDs[9]=getResources().getIdentifier("gt3502_4x4_10", "drawable",this.getPackageName());
-            syntheticIDs[10]=getResources().getIdentifier("gt3502_4x4_11", "drawable",this.getPackageName());
-            syntheticIDs[11]=getResources().getIdentifier("gt3502_4x4_12", "drawable",this.getPackageName());
-            syntheticIDs[12]=getResources().getIdentifier("gt3502_4x4_13", "drawable",this.getPackageName());
-            syntheticIDs[13]=getResources().getIdentifier("gt3502_4x4_14", "drawable",this.getPackageName());
-            syntheticIDs[14]=getResources().getIdentifier("gt3502_4x4_15", "drawable",this.getPackageName());
+            mustangIDs[0]=getResources().getIdentifier("gt3502_4x4_01", "drawable",this.getPackageName());
+            mustangIDs[1]=getResources().getIdentifier("gt3502_4x4_02", "drawable",this.getPackageName());
+            mustangIDs[2]=getResources().getIdentifier("gt3502_4x4_03", "drawable",this.getPackageName());
+            mustangIDs[3]=getResources().getIdentifier("gt3502_4x4_04", "drawable",this.getPackageName());
+            mustangIDs[4]=getResources().getIdentifier("gt3502_4x4_05", "drawable",this.getPackageName());
+            mustangIDs[5]=getResources().getIdentifier("gt3502_4x4_06", "drawable",this.getPackageName());
+            mustangIDs[6]=getResources().getIdentifier("gt3502_4x4_07", "drawable",this.getPackageName());
+            mustangIDs[7]=getResources().getIdentifier("gt3502_4x4_08", "drawable",this.getPackageName());
+            mustangIDs[8]=getResources().getIdentifier("gt3502_4x4_09", "drawable",this.getPackageName());
+            mustangIDs[9]=getResources().getIdentifier("gt3502_4x4_10", "drawable",this.getPackageName());
+            mustangIDs[10]=getResources().getIdentifier("gt3502_4x4_11", "drawable",this.getPackageName());
+            mustangIDs[11]=getResources().getIdentifier("gt3502_4x4_12", "drawable",this.getPackageName());
+            mustangIDs[12]=getResources().getIdentifier("gt3502_4x4_13", "drawable",this.getPackageName());
+            mustangIDs[13]=getResources().getIdentifier("gt3502_4x4_14", "drawable",this.getPackageName());
+            mustangIDs[14]=getResources().getIdentifier("gt3502_4x4_15", "drawable",this.getPackageName());
         }
         else if(dimensions==25){
 
@@ -1830,30 +1811,30 @@ public class MainActivity extends AppCompatActivity {
             moneyIDs[22]=getResources().getIdentifier("money_5x5_23", "drawable",this.getPackageName());
             moneyIDs[23]=getResources().getIdentifier("money_5x5_24", "drawable",this.getPackageName());
 
-            syntheticIDs[0]=getResources().getIdentifier("gt3502_5x5_01", "drawable",this.getPackageName());
-            syntheticIDs[1]=getResources().getIdentifier("gt3502_5x5_02", "drawable",this.getPackageName());
-            syntheticIDs[2]=getResources().getIdentifier("gt3502_5x5_03", "drawable",this.getPackageName());
-            syntheticIDs[3]=getResources().getIdentifier("gt3502_5x5_04", "drawable",this.getPackageName());
-            syntheticIDs[4]=getResources().getIdentifier("gt3502_5x5_05", "drawable",this.getPackageName());
-            syntheticIDs[5]=getResources().getIdentifier("gt3502_5x5_06", "drawable",this.getPackageName());
-            syntheticIDs[6]=getResources().getIdentifier("gt3502_5x5_07", "drawable",this.getPackageName());
-            syntheticIDs[7]=getResources().getIdentifier("gt3502_5x5_08", "drawable",this.getPackageName());
-            syntheticIDs[8]=getResources().getIdentifier("gt3502_5x5_09", "drawable",this.getPackageName());
-            syntheticIDs[9]=getResources().getIdentifier("gt3502_5x5_10", "drawable",this.getPackageName());
-            syntheticIDs[10]=getResources().getIdentifier("gt3502_5x5_11", "drawable",this.getPackageName());
-            syntheticIDs[11]=getResources().getIdentifier("gt3502_5x5_12", "drawable",this.getPackageName());
-            syntheticIDs[12]=getResources().getIdentifier("gt3502_5x5_13", "drawable",this.getPackageName());
-            syntheticIDs[13]=getResources().getIdentifier("gt3502_5x5_14", "drawable",this.getPackageName());
-            syntheticIDs[14]=getResources().getIdentifier("gt3502_5x5_15", "drawable",this.getPackageName());
-            syntheticIDs[15]=getResources().getIdentifier("gt3502_5x5_16", "drawable",this.getPackageName());
-            syntheticIDs[16]=getResources().getIdentifier("gt3502_5x5_17", "drawable",this.getPackageName());
-            syntheticIDs[17]=getResources().getIdentifier("gt3502_5x5_18", "drawable",this.getPackageName());
-            syntheticIDs[18]=getResources().getIdentifier("gt3502_5x5_19", "drawable",this.getPackageName());
-            syntheticIDs[19]=getResources().getIdentifier("gt3502_5x5_20", "drawable",this.getPackageName());
-            syntheticIDs[20]=getResources().getIdentifier("gt3502_5x5_21", "drawable",this.getPackageName());
-            syntheticIDs[21]=getResources().getIdentifier("gt3502_5x5_22", "drawable",this.getPackageName());
-            syntheticIDs[22]=getResources().getIdentifier("gt3502_5x5_23", "drawable",this.getPackageName());
-            syntheticIDs[23]=getResources().getIdentifier("gt3502_5x5_24", "drawable",this.getPackageName());
+            mustangIDs[0]=getResources().getIdentifier("gt3502_5x5_01", "drawable",this.getPackageName());
+            mustangIDs[1]=getResources().getIdentifier("gt3502_5x5_02", "drawable",this.getPackageName());
+            mustangIDs[2]=getResources().getIdentifier("gt3502_5x5_03", "drawable",this.getPackageName());
+            mustangIDs[3]=getResources().getIdentifier("gt3502_5x5_04", "drawable",this.getPackageName());
+            mustangIDs[4]=getResources().getIdentifier("gt3502_5x5_05", "drawable",this.getPackageName());
+            mustangIDs[5]=getResources().getIdentifier("gt3502_5x5_06", "drawable",this.getPackageName());
+            mustangIDs[6]=getResources().getIdentifier("gt3502_5x5_07", "drawable",this.getPackageName());
+            mustangIDs[7]=getResources().getIdentifier("gt3502_5x5_08", "drawable",this.getPackageName());
+            mustangIDs[8]=getResources().getIdentifier("gt3502_5x5_09", "drawable",this.getPackageName());
+            mustangIDs[9]=getResources().getIdentifier("gt3502_5x5_10", "drawable",this.getPackageName());
+            mustangIDs[10]=getResources().getIdentifier("gt3502_5x5_11", "drawable",this.getPackageName());
+            mustangIDs[11]=getResources().getIdentifier("gt3502_5x5_12", "drawable",this.getPackageName());
+            mustangIDs[12]=getResources().getIdentifier("gt3502_5x5_13", "drawable",this.getPackageName());
+            mustangIDs[13]=getResources().getIdentifier("gt3502_5x5_14", "drawable",this.getPackageName());
+            mustangIDs[14]=getResources().getIdentifier("gt3502_5x5_15", "drawable",this.getPackageName());
+            mustangIDs[15]=getResources().getIdentifier("gt3502_5x5_16", "drawable",this.getPackageName());
+            mustangIDs[16]=getResources().getIdentifier("gt3502_5x5_17", "drawable",this.getPackageName());
+            mustangIDs[17]=getResources().getIdentifier("gt3502_5x5_18", "drawable",this.getPackageName());
+            mustangIDs[18]=getResources().getIdentifier("gt3502_5x5_19", "drawable",this.getPackageName());
+            mustangIDs[19]=getResources().getIdentifier("gt3502_5x5_20", "drawable",this.getPackageName());
+            mustangIDs[20]=getResources().getIdentifier("gt3502_5x5_21", "drawable",this.getPackageName());
+            mustangIDs[21]=getResources().getIdentifier("gt3502_5x5_22", "drawable",this.getPackageName());
+            mustangIDs[22]=getResources().getIdentifier("gt3502_5x5_23", "drawable",this.getPackageName());
+            mustangIDs[23]=getResources().getIdentifier("gt3502_5x5_24", "drawable",this.getPackageName());
         }
     }
 

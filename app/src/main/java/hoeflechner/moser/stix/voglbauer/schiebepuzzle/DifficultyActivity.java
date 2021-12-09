@@ -61,6 +61,7 @@ public class DifficultyActivity extends AppCompatActivity {
         intent.putExtra("random", 0);
         intent.putExtra(EXTRA_MESSAGE, music);
         intent.putExtra("columns",5);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
 
         //TODO: send 5x5

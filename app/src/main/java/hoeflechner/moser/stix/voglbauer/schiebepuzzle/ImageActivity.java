@@ -12,12 +12,34 @@ public class ImageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ImageView imageView;
-        imageView=(ImageView) findViewById(R.id.sampleImage);
-        //Funktioniert noch nicht ganz
-        //imageView.setImageDrawable((Drawable) getIntent().getExtras().get("image"));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+
+        ImageView imageView;
+        imageView=(ImageView) findViewById(R.id.sampleImage);
+
+        int randomImage=1;
+        randomImage=(int) this.getIntent().getExtras().get("image");
+        switch (randomImage){
+            case 1:
+                imageView.setImageResource(R.drawable.flamingo);
+                break;
+            case 2:
+                imageView.setImageResource(R.drawable.graffiti);
+                break;
+            case 3:
+                imageView.setImageResource(R.drawable.mountain);
+                break;
+            case 4:
+                imageView.setImageResource(R.drawable.cash);
+                break;
+            case 5:
+                imageView.setImageResource(R.drawable.mustang);
+                break;
+            default:
+                imageView.setImageResource(R.drawable.flamingo);
+                break;
+        }
     }
 
     public void resumeGamefromImage(View view)
