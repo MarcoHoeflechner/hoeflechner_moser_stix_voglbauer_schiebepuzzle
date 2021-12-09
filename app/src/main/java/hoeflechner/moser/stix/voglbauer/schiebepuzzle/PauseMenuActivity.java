@@ -25,9 +25,14 @@ public class PauseMenuActivity extends AppCompatActivity
 
     public void restartGame(View view)
     {
+        Intent prevIntent = getIntent();
+        int columns = prevIntent.getExtras().getInt("columns");
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("random", 0);
         intent.putExtra(MenuActivity.EXTRA_MESSAGE, MenuActivity.music);
+        intent.putExtra("columns", columns);
+
         startActivity(intent);
     }
 

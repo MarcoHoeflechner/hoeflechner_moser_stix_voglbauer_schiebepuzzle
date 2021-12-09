@@ -31,17 +31,25 @@ public class Pop extends Activity {
 
     public void nextGame(View view)
     {
+        Intent prevIntent = getIntent();
+        int columns = prevIntent.getExtras().getInt("columns");
+
         Intent intent=new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("random", 0);
         intent.putExtra(MenuActivity.EXTRA_MESSAGE, MenuActivity.music);
+        intent.putExtra("columns", columns);
+
         startActivity(intent);
     }
     public void retryGame(View view)
     {
+        Intent prevIntent = getIntent();
+        int columns = prevIntent.getExtras().getInt("columns");
 
         Intent intent=new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("random", StaticFixer.randomImage);
         intent.putExtra(MenuActivity.EXTRA_MESSAGE, MenuActivity.music);
+        intent.putExtra("columns", columns);
         startActivity(intent);
 
     }

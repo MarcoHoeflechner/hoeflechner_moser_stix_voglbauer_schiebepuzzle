@@ -54,12 +54,13 @@ public class StaticFixer extends Application {
     }
 
     //Startet eine neue Activity
-    public void startActivity(int randomImage, String score, String highScore) {
+    public void startActivity(int randomImage, String score, String highScore, int columns) {
 
         Intent intent = new Intent(mainContext, Pop.class);
         intent.putExtra("random", randomImage);
         intent.putExtra("highScore", highScore);
         intent.putExtra("score", score);
+        intent.putExtra("columns", columns);
         mainContext.startActivity(intent);
     }
 
