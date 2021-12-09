@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,8 +100,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // SharedPreferences
-        sharedPreferences = getSharedPreferences("TimeValue", 0);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPreferences.edit();
+
+        // Spielzeit wird als Long abgespeichert und in double umgewandelt
         playTime = sharedPreferences.getLong("playTime", 0);
         System.out.println("PlayTime: " + playTime);
 
@@ -518,13 +521,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openWinPopUp(Context context) {
-        Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
-
-        //Win PopUp öffnen
-        //staticFixer.startActivity(randomImage);
-
         // Spielzeit berechnen und speichern
-        Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
+        Long currentPlayTime = (System.currentTimeMillis() - startTime) / 1000;
         String playTimeString = currentPlayTime.toString();
         System.out.println("Spielzeit: " + playTimeString);
 
@@ -534,6 +532,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putLong("playTime", currentPlayTime);
             editor.commit();
         }
+
+        staticFixer.startActivity(randomImage,zeit, Double.toString(playTime), columns);
     }
 
     private boolean isSolved()
@@ -551,10 +551,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(counter==5){
-            Long tmp=sharedPreferences.getLong("playTime", Double.doubleToRawLongBits(100L));
-            playTimeDouble=Double.longBitsToDouble(tmp);
 
-            staticFixer.startActivity(randomImage,zeit, Double.toString(playTimeDouble), columns);
+            openWinPopUp(getApplicationContext());
+            /*Long tmp=sharedPreferences.getLong("playTime", Double.doubleToRawLongBits(100L));
+            playTimeDouble=Double.longBitsToDouble(tmp); */
+
+            //staticFixer.startActivity(randomImage,zeit, Double.toString(playTimeDouble), columns);
 
         }
         counter++;
