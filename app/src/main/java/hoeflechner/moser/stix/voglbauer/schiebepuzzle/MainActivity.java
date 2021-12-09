@@ -513,22 +513,26 @@ public class MainActivity extends AppCompatActivity {
         //Überprüfung, ob das Puzzle gelöst wurde
         if(isSolved())
         {
-            Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
+            openWinPopUp(context);
+        }
+    }
 
-            //Win PopUp öffnen
-            //staticFixer.startActivity(randomImage);
+    private void openWinPopUp(Context context) {
+        Toast.makeText(context,"Puzzle gelöst!", Toast.LENGTH_SHORT).show();
 
-            // Spielzeit berechnen und speichern
-            Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
-            String playTimeString = currentPlayTime.toString();
-            System.out.println("Spielzeit: " + playTimeString);
+        //Win PopUp öffnen
+        //staticFixer.startActivity(randomImage);
 
-            if (currentPlayTime < playTime)
-            {
-                // Spielzeit speichern
-                editor.putLong("playTime", currentPlayTime);
-                editor.commit();
-            }
+        // Spielzeit berechnen und speichern
+        Long currentPlayTime = System.currentTimeMillis()/1000 - startTime;
+        String playTimeString = currentPlayTime.toString();
+        System.out.println("Spielzeit: " + playTimeString);
+
+        if (currentPlayTime < playTime)
+        {
+            // Spielzeit speichern
+            editor.putLong("playTime", currentPlayTime);
+            editor.commit();
         }
     }
 
