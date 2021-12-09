@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
         // Spielzeit wird als Long abgespeichert und in double umgewandelt
-        playTime = sharedPreferences.getLong("playTime", 0);
+        playTime = sharedPreferences.getLong("playTime", 100);
         System.out.println("PlayTime: " + playTime);
 
         // Hintergrundmusik
@@ -529,6 +529,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentPlayTime < playTime)
         {
             // Spielzeit speichern
+            playTime = currentPlayTime;
             editor.putLong("playTime", currentPlayTime);
             editor.commit();
         }
