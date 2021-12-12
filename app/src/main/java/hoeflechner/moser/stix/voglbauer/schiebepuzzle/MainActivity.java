@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     // Bestzeit dauerhaft speichern
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
+    private String difficulty;
 
     private static boolean[] countTime = new boolean[1];
 
@@ -103,10 +104,6 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPreferences.edit();
 
-        // Spielzeit wird als Long abgespeichert und in double umgewandelt
-        playTime = sharedPreferences.getLong("playTime", 100);
-        System.out.println("PlayTime: " + playTime);
-
         // Hintergrundmusik
         Intent intent = getIntent();
         music = intent.getExtras().getBoolean(MenuActivity.EXTRA_MESSAGE);
@@ -116,6 +113,26 @@ public class MainActivity extends AppCompatActivity {
         dimensions = columns * columns;
 
         blackPosition = dimensions-1;
+
+        // Überprüfen, welcher Schwierigkeitsgrad gewählt wurde
+        if (columns == 3)
+        {
+            difficulty = "easy";
+        }
+
+        if (columns == 4)
+        {
+            difficulty = "normal";
+        }
+
+        if (columns == 5)
+        {
+            difficulty = "hard";
+        }
+
+        // Spielzeit wird als Long abgespeichert und in double umgewandelt
+        playTime = sharedPreferences.getLong(difficulty, 100);
+        System.out.println("PlayTime: " + playTime);
 
         //Die Tile-Arrays werden in die passende Größe gebracht
         flamingoIDs = new int[dimensions-1];
@@ -525,12 +542,13 @@ public class MainActivity extends AppCompatActivity {
         Long currentPlayTime = (System.currentTimeMillis() - startTime) / 1000;
         String playTimeString = currentPlayTime.toString();
         System.out.println("Spielzeit: " + playTimeString);
+        System.out.println("Schwierigkeit: " + difficulty);
 
         if (currentPlayTime < playTime)
         {
             // Spielzeit speichern
             playTime = currentPlayTime;
-            editor.putLong("playTime", currentPlayTime);
+            editor.putLong(difficulty, currentPlayTime);
             editor.commit();
         }
 
