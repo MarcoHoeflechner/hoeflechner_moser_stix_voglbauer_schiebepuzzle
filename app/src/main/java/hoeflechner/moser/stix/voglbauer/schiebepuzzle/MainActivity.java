@@ -1643,14 +1643,14 @@ public class MainActivity extends AppCompatActivity {
             moneyIDs[6]=getResources().getIdentifier("money7", "drawable",this.getPackageName());
             moneyIDs[7]=getResources().getIdentifier("money8", "drawable",this.getPackageName());
 
-            mustangIDs[0]=getResources().getIdentifier("part1", "drawable",this.getPackageName());
-            mustangIDs[1]=getResources().getIdentifier("part2", "drawable",this.getPackageName());
-            mustangIDs[2]=getResources().getIdentifier("part3", "drawable",this.getPackageName());
-            mustangIDs[3]=getResources().getIdentifier("part4", "drawable",this.getPackageName());
-            mustangIDs[4]=getResources().getIdentifier("part5", "drawable",this.getPackageName());
-            mustangIDs[5]=getResources().getIdentifier("part6", "drawable",this.getPackageName());
-            mustangIDs[6]=getResources().getIdentifier("part7", "drawable",this.getPackageName());
-            mustangIDs[7]=getResources().getIdentifier("part8", "drawable",this.getPackageName());
+            mustangIDs[0]=getResources().getIdentifier("gt3502_3x3_01", "drawable",this.getPackageName());
+            mustangIDs[1]=getResources().getIdentifier("gt3502_3x3_02", "drawable",this.getPackageName());
+            mustangIDs[2]=getResources().getIdentifier("gt3502_3x3_03", "drawable",this.getPackageName());
+            mustangIDs[3]=getResources().getIdentifier("gt3502_3x3_04", "drawable",this.getPackageName());
+            mustangIDs[4]=getResources().getIdentifier("gt3502_3x3_05", "drawable",this.getPackageName());
+            mustangIDs[5]=getResources().getIdentifier("gt3502_3x3_06", "drawable",this.getPackageName());
+            mustangIDs[6]=getResources().getIdentifier("gt3502_3x3_07", "drawable",this.getPackageName());
+            mustangIDs[7]=getResources().getIdentifier("gt3502_3x3_08", "drawable",this.getPackageName());
         }
         else if(dimensions==16){
             flamingoIDs[0]=getResources().getIdentifier("flamingo_4x4_01", "drawable",this.getPackageName());
