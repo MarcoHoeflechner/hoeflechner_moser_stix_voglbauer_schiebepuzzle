@@ -9,8 +9,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="choose_difficulty">Choose Difficuly</string>
+    <string name="choose_difficulty">Choose Difficulty</string>
     <string name="easy">Easy (3x3)</string>
     <string name="normal">Normal (4x4)</string>
-    <string name="hard">Hard (5X5)</string>
+    <string name="hard">Hard (5x5)</string>
 </resources>
